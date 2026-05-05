@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Family of Grace - Faith, Community, Service</title> 
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+/* ============== MODERN RESET & BASE ============== */
+:root {
+  --primary: #1e40af;
+  --primary-dark: #1e3a8a;
+  --accent: #3b82f6;
+  --accent-light: #60a5fa;
+  --success: #10b981;
+  --soft: #f0f9ff;
+  --dark: #0f172a;
+  --text: #1e293b;
+  --muted: #64748b;
+  --shadow-sm: 0 4px 12px rgba(0,0,0,.08);
+  --shadow-md: 0 12px 30px rgba(0,0,0,.12);
+  --shadow-lg: 0 20px 50px rgba(0,0,0,.15);
+  --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============== NAVBAR - PROFESSIONAL ============== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  padding: 16px 20px;
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--shadow-md);
+  padding: 12px 20px;
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.1));
+  transition: var(--transition);
+}
+
+.logo:hover img {
+  filter: drop-shadow(0 4px 12px rgba(30, 64, 175, 0.3));
+  transform: scale(1.05);
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-weight: 600;
+  color: var(--text);
+  position: relative;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-links a:hover::before {
+  width: 100%;
+}
+
+/* ============== MAIN CONTAINER ============== */
+.main-cotainer {
+  padding-top: 70px;
+}
+
+/* ============== HERO SECTION ============== */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: slideUpFade 0.8s ease-out;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content h4 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  color: var(--primary);
+  margin-bottom: 20px;
+  animation: slideUpFade 0.8s ease-out 0.1s both;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  animation: slideUpFade 0.8s ease-out 0.2s both;
+}
+
+.btn-group {
+  animation: slideUpFade 0.8s ease-out 0.3s both;
+}
+
+.btn {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  font-size: 0.95rem;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: white;
+  box-shadow: 0 12px 30px rgba(30, 64, 175, 0.3);
+}
+
+.btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px rgba(30, 64, 175, 0.4);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.hero-image {
+  animation: slideUpFade 0.8s ease-out 0.4s both;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 380px;
+  filter: drop-shadow(0 20px 40px rgba(30, 64, 175, 0.2));
+  transition: var(--transition);
+}
+
+.hero-image:hover img {
+  transform: scale(1.05) translateY(-8px);
+  filter: drop-shadow(0 30px 60px rgba(30, 64, 175, 0.3));
+}
+
+/* ============== VISION SECTION ============== */
+.vision-section {
+  padding: 100px 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+  text-align: center;
+}
+
+.vision-section h4 {
+  color: var(--accent);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.vision-section h2 {
+  font-size: 2.8rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vision-section > p {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 60px;
+  line-height: 1.8;
+}
+
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vision-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  animation: slideUpFade 0.8s ease-out;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.vision-card:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.vision-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.vision-card:hover img {
+  transform: scale(1.08);
+}
+
+.vision-card h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  padding: 24px 20px 12px;
+  line-height: 1.4;
+}
+
+.vision-card p {
+  color: var(--muted);
+  padding: 0 20px 24px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ============== VISION CONTAINER ============== */
+.vision-container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.vision-text h2 {
+  font-size: 2.6rem;
+  color: var(--primary);
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.bible-quote {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid var(--accent);
+  padding: 28px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  color: var(--text);
+  font-style: italic;
+  line-height: 1.8;
+  margin: 30px 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.bible-quote span {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  font-style: normal;
+}
+
+.vision-text > p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin: 20px 0 40px;
+}
+
+.vision-points {
+  display: grid;
+  gap: 20px;
+}
+
+.vision-points > div {
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid var(--accent);
+  transition: var(--transition);
+}
+
+.vision-points > div:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateX(8px);
+}
+
+.vision-points h4 {
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.vision-points p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.vision-image img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+.vision-image:hover img {
+  transform: scale(1.02);
+}
+
+/* ============== PROGRAMS SECTION ============== */
+.programs-section {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.programs-title {
+  font-size: 2.8rem;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 70px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.top-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.icon-card {
+  background: white;
+  padding: 40px 28px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  animation: slideUpFade 0.8s ease-out;
+}
+
+.icon-card:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%);
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: var(--transition);
+}
+
+.icon-card:hover .icon-circle {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+}
+
+.icon-card svg {
+  width: 100%;
+  height: 100%;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.card-text {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ============== FOUNDER SECTION ============== */
+.founder-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.founder-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.founder-image img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+.founder-image:hover img {
+  transform: scale(1.03);
+}
+
+.founder-content h2 {
+  color: var(--accent);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.founder-content h3 {
+  font-size: 2.4rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.founder-content p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+/* ============== FOOTER ============== */
+.site-footer {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #e0f2fe;
+  padding: 80px 20px 40px;
+}
+
+.footer-wrap {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+}
+
+.footer-brand h2 {
+  color: white;
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.footer-tagline {
+  color: #bfdbfe;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.footer-links h3,
+.footer-branches h3,
+.footer-social h3 {
+  color: white;
+  font-size: 1.05rem;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+
+.footer-links ul,
+.footer-branches ul {
+  list-style: none;
+}
+
+.footer-links ul li,
+.footer-branches ul li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #bfdbfe;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-links a::before {
+  content: '';
+  width: 0;
+  height: 2px;
+  background: #60a5fa;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #60a5fa;
+}
+
+.footer-links a:hover::before {
+  width: 8px;
+}
+
+.footer-branches ul li {
+  color: #bfdbfe;
+  font-size: 0.95rem;
+}
+
+.social-icon {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #bfdbfe;
+  transition: var(--transition);
+  margin-right: 12px;
+  margin-top: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-icon:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-4px);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 30px;
+  text-align: center;
+  color: #bfdbfe;
+  font-size: 0.9rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ============== RESPONSIVE DESIGN ============== */
+@media (max-width: 1100px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 60px 20px;
+  }
+  
+  .hero-content h4 {
+    font-size: 2.8rem;
+  }
+  
+  .hero-image {
+    order: -1;
+  }
+  
+  .vision-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 60px 20px;
+  }
+  
+  .founder-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .event-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .footer-wrap {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 24px;
+  }
+  
+  .hero {
+    padding: 50px 16px;
+  }
+  
+  .hero-content h4 {
+    font-size: 2.2rem;
+  }
+  
+  .vision-section {
+    padding: 60px 16px;
+  }
+  
+  .vision-section h2 {
+    font-size: 2.2rem;
+  }
+  
+  .vision-grid {
+    gap: 24px;
+  }
+  
+  .programs-section {
+    padding: 60px 16px;
+  }
+  
+  .programs-title {
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+  }
+  
+  .top-cards {
+    gap: 24px;
+  }
+  
+  .event-section {
+    padding: 60px 16px;
+  }
+  
+  .event-header h2 {
+    font-size: 2.2rem;
+  }
+  
+  .founder-section {
+    padding: 60px 16px;
+  }
+  
+  .founder-content h3 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+  
+  .logo img {
+    width: 40px;
+  }
+  
+  .nav-links {
+    gap: 16px;
+    font-size: 0.85rem;
+  }
+  
+  .main-cotainer {
+    padding-top: 60px;
+  }
+  
+  .hero {
+    padding: 40px 16px;
+    gap: 24px;
+  }
+  
+  .hero-content h4 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+  
+  .btn {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+  
+  .vision-section {
+    padding: 50px 16px;
+  }
+  
+  .vision-section h2 {
+    font-size: 1.8rem;
+  }
+  
+  .vision-section > p {
+    font-size: 0.95rem;
+    margin-bottom: 40px;
+  }
+  
+  .vision-card img {
+    height: 200px;
+  }
+  
+  .vision-text h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .bible-quote {
+    padding: 20px;
+    font-size: 0.95rem;
+  }
+  
+  .programs-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
+  
+  .icon-card {
+    padding: 28px 20px;
+  }
+  
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .event-section {
+    padding: 50px 16px;
+  }
+  
+  .event-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .event-detail-item {
+    padding: 18px;
+    gap: 16px;
+  }
+  
+  .detail-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .detail-text {
+    font-size: 1rem;
+  }
+  
+  .founder-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .site-footer {
+    padding: 60px 16px 30px;
+  }
+  
+  .footer-wrap {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 520px) {
+  .navbar {
+    padding: 10px 12px;
+  }
+  
+  .logo img {
+    width: 36px;
+  }
+  
+  .nav-links {
+    gap: 12px;
+    font-size: 0.8rem;
+  }
+  
+  .main-cotainer {
+    padding-top: 50px;
+  }
+  
+  .hero {
+    padding: 30px 12px;
+  }
+  
+  .hero-content h4 {
+    font-size: 1.4rem;
+  }
+  
+  .hero-content p {
+    font-size: 0.9rem;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+  
+  .vision-section {
+    padding: 40px 12px;
+  }
+  
+  .vision-section h2 {
+    font-size: 1.4rem;
+  }
+  
+  .vision-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .vision-container {
+    padding: 40px 12px;
+  }
+  
+  .vision-text h2 {
+    font-size: 1.4rem;
+  }
+  
+  .programs-section {
+    padding: 40px 12px;
+  }
+  
+  .programs-title {
+    font-size: 1.4rem;
+  }
+  
+  .top-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .event-section {
+    padding: 40px 12px;
+  }
+  
+  .event-header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .event-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .event-detail-item {
+    padding: 14px;
+    gap: 12px;
+  }
+  
+  .detail-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .detail-content h4 {
+    font-size: 0.8rem;
+  }
+  
+  .detail-text {
+    font-size: 0.9rem;
+  }
+  
+  .founder-section {
+    padding: 40px 12px;
+  }
+  
+  .founder-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .founder-content p {
+    font-size: 0.9rem;
+  }
+  
+  .site-footer {
+    padding: 40px 12px 20px;
+  }
+  
+  .footer-brand h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============== SCROLL PROGRESS BAR ============== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3.5px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+}
+
+/* ============== SCROLL ANIMATION CLASSES ============== */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scroll-fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.6s ease-out;
+}
+
+.scroll-scale-in.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scroll-slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scroll-slide-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-slide-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.scroll-slide-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============== STAGGER ANIMATION ============== */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.stagger-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger-item:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.stagger-item:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.stagger-item:nth-child(4) {
+  transition-delay: 0.3s;
+}
+
+.stagger-item:nth-child(5) {
+  transition-delay: 0.4s;
+}
+
+/* ============== EVENT SECTION ============== */
+.event-section {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+}
+
+.event-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.event-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.event-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #c084fc 0%, #a855f7 100%);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+.event-header h2 {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.event-tagline {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.event-tagline .highlight-love {
+  color: #ec4899;
+  font-weight: 700;
+}
+
+.event-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 60px;
+  align-items: center;
+  animation: slideUpFade 0.8s ease-out;
+}
+
+.event-details {
+  display: grid;
+  gap: 28px;
+}
+
+.event-detail-item {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  animation: slideUpFade 0.8s ease-out;
+}
+
+.event-detail-item:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+.detail-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.detail-icon.calendar-icon {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+}
+
+.detail-icon.outreach-icon {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.detail-icon.visitation-icon {
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+}
+
+.event-detail-item:hover .detail-icon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.detail-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.detail-content h4 {
+  font-size: 0.9rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.detail-text {
+  font-size: 1.2rem;
+  color: var(--primary);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.event-image-section {
+  animation: slideUpFade 0.8s ease-out 0.2s both;
+}
+
+.event-image {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  object-fit: cover;
+}
+
+.event-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 30px 60px rgba(30, 64, 175, 0.25);
+}
+
+/* ============== SCROLL INDICATOR ============== */
+.scroll-indicator {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 998;
+  box-shadow: 0 8px 24px rgba(30, 64, 175, 0.3);
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.scroll-indicator.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-indicator:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 12px 36px rgba(30, 64, 175, 0.4);
+}
+
+  </style>
+</head> 
+<body> 
+  <div class="scroll-progress"></div>
+  
+  <div class="main-cotainer"> 
+    
+    <!-- Navigation --> 
+    <nav class="navbar"> 
+      <div class="logo"> 
+        <img src="./photo_2025-09-03_01-35-31-removebg-preview.png" alt="Family of Grace Logo" width="40"> 
+      </div> 
+      <div class="nav-links"> 
+        <a href="about.html">About</a> 
+        <a href="quiz.html">Quiz</a> 
+      </div> 
+    </nav> 
+    
+    <!-- Hero Section --> 
+    <section class="hero" id="home"> 
+      <div class="hero-content"> 
+        <h4>Welcome to the <br> Family of Grace!</h4> 
+        <p> At Family of Grace, we believe in the power of faith, hope, and love to transform lives. 
+        Join us as we come together to worship, grow in our faith, and serve our community. </p> 
+        <div class="btn-group"> 
+          <a href="https://chat.whatsapp.com/ELIBxmDYfW0EIw8CX6cTu6?mode=ems_copy_t">
+            <button class="btn primary">Join</button>
+          </a> 
+        </div> 
+      </div> 
+      <div class="hero-image"> 
+        <img src="./photo_2025-09-03_01-35-31-removebg-preview.png" alt="Community" width="280"> 
+      </div> 
+    </section> 
+    
+    <!-- Vision Section --> 
+    <section class="vision-section" id="vision"> 
+      <h4>Vision</h4> 
+      <h2>Our Vision: Gather, Grow, Go</h2> 
+      <p> At Family of Grace, we believe in the power of community. Our vision is to create a space where faith flourishes through connection, growth, and outreach. </p> 
+      <div class="vision-grid"> 
+        <div class="vision-card"> 
+          <img src="./photo_2025-09-04_03-55-16.jpg" alt="Gather - Worship and Build Relationships"> 
+          <h3>Gather: Worship and Build Relationships</h3> 
+          <p>Join us in worship as we foster deep connections.</p> 
+        </div> 
+        <div class="vision-card"> 
+          <img src="./photo_2025-09-04_03-57-05.jpg" alt="Grow - Discipleship, Prayer, and Serving One Another"> 
+          <h3>Grow: Discipleship, Prayer, and Serving One Another</h3> 
+          <p>Engage in discipleship and prayer to strengthen our faith.</p> 
+        </div> 
+        <div class="vision-card pic"> 
+          <img src="./one (2).jpg" alt="Go - Outreach and Community Service"> 
+          <h3>Go: Outreach and Community Service</h3> 
+          <p>Be a part of our mission to serve the community.</p> 
+        </div> 
+      </div> 
+    </section> 
+
+    <!-- Extended Vision --> 
+    <section class="vision-container"> 
+      <div class="vision-text"> 
+        <h2>Discover Our Vision: A Journey of Faith, Growth, and Service</h2> 
+        
+        <blockquote class="bible-quote">
+          “He made known to us the mystery of His will according to His good pleasure, 
+          which He purposed in Christ, to be put into effect when the times reach their fulfillment,
+          to bring unity to all things in heaven and on earth under Christ.”
+          <span>(Ephesians 1:9–10)</span>
+        </blockquote>
+    
+        <p>At Family of Grace, we believe in the power of community. Together, we nurture our faith and support one another in love.</p> 
+    
+        <div class="vision-points"> 
+          <div> 
+            <h4>Gather Together</h4> 
+            <p>Worship and build lasting relationships within our welcoming community.</p> 
+          </div> 
+          <div> 
+            <h4>Grow Spiritually</h4> 
+            <p>Engage in discipleship, prayer, and serving one another for deeper connections.</p> 
+          </div> 
+          <div> 
+            <h4>Serve Others</h4> 
+            <p>Reach out with compassion through acts of service and community impact.</p> 
+          </div> 
+        </div> 
+      </div> 
+    
+      <div class="vision-image"> 
+        <img src="./i (4).webp" alt="Vision Image"> 
+      </div> 
+    </section>
+    
+
+    <!-- Programs Section --> 
+    <section class="programs-section" aria-labelledby="programs-heading" id="programs"> 
+      <div class="wrap"> 
+        <h2 id="programs-heading" class="programs-title"> Explore Our Engaging Programs and Activities for All Ages </h2> 
+        <div class="top-cards"> 
+          <article class="icon-card"> 
+            <div class="icon-circle" aria-hidden="true"> 
+              <!-- calendar SVG --> 
+              <svg width="28" height="28" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M16 3v4M8 3v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M3 11h18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 
+            </div> 
+            <h3 class="card-title">Join Us for Weekly Gatherings and Special Events</h3> 
+            <p class="card-text">Participate in our vibrant community programs designed to inspire and connect.</p> 
+          </article> 
+          <article class="icon-card"> 
+            <div class="icon-circle" aria-hidden="true"> 
+              <!-- book SVG --> 
+              <svg width="28" height="28" viewBox="0 0 24 24"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3H19" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M21 7v11a2 2 0 0 1-2 2H6.5A2.5 2.5 0 0 1 4 17.5V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 7v10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 
+            </div> 
+            <h3 class="card-title">Weekly Family Prayer and Bible Study Sessions</h3> 
+            <p class="card-text">Come together every Monday for Family Prayer and every Tuesday for Bible Study.</p> 
+          </article> 
+          <article class="icon-card"> 
+            <div class="icon-circle" aria-hidden="true"> 
+              <!-- gamepad SVG --> 
+              <svg width="28" height="28" viewBox="0 0 24 24"><rect x="2" y="9" width="20" height="8" rx="3" stroke="currentColor" stroke-width="1.4"/><circle cx="8.5" cy="13" r="1" fill="currentColor"/><circle cx="15.5" cy="13" r="1" fill="currentColor"/><path d="M12 13h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> 
+            </div> 
+            <h3 class="card-title">Fun-Filled Saturdays with Games and Activities for Everyone</h3> 
+            <p class="card-text">Join us every Saturday for exciting games and activities that foster community.</p> 
+          </article> 
+        </div> 
+      </div> 
+    </section> 
+    <!-- Event Section -->
+    <section class="event-section" id="events">
+      <div class="event-wrap">
+        <div class="event-header">
+          <span class="event-badge">4th Anniversary Celebration</span>
+          <h2>Branch Outreach & Visitations</h2>
+          <p class="event-tagline">We go beyond words to show the <span class="highlight-love">love of Christ</span> through giving, presence, and impact.</p>
+        </div>
+
+        <div class="event-container">
+          <div class="event-details">
+            <div class="event-detail-item">
+              <div class="detail-icon calendar-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <path d="M16 2v4M8 2v4M3 10h18"/>
+                </svg>
+              </div>
+              <div class="detail-content">
+                <h4>Date</h4>
+                <p class="detail-text">Saturday, May 30, 2026</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <div class="detail-icon outreach-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                  <path d="M12.5 7.5h-1v4l3.5 2"/>
+                </svg>
+              </div>
+              <div class="detail-content">
+                <h4>Outreach</h4>
+                <p class="detail-text">Lagos & Owerri Branch</p>
+              </div>
+            </div>
+
+            <div class="event-detail-item">
+              <div class="detail-icon visitation-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+              <div class="detail-content">
+                <h4>Visitations</h4>
+                <p class="detail-text">Enugu, Abuja & Port Harcourt Branch</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="event-image-section">
+            <img src="./IMG-20260503-WA0006.jpg" alt="4th Anniversary Celebration - Branch Outreach & Visitations" class="event-image">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founder Section --> 
+    <section class="founder-section" id="about"> 
+      <div class="founder-container"> 
+        <div class="founder-image"> 
+          <img src="./photo_2025-09-04_03-30-59.jpg" alt="Rev'd Zenith Nwebo"> 
+        </div> 
+        <div class="founder-content"> 
+          <h2>About the Founder</h2> 
+          <h3>Rev'd Zenith Nwebo</h3> 
+          <p> Rev'd Zenith Nwebo, the founder of Family of Grace, is a passionate servant of God with a vision to raise believers grounded in the Word and empowered by grace. Based in the United States, he has dedicated his life to spreading the gospel, mentoring disciples, and nurturing a Christ-centered community. His leadership has been marked by unwavering faith, compassion, and a heart for building families that live out God’s love in their daily lives. </p> 
+        </div> 
+      </div> 
+    </section> 
+
+    <!-- Footer --> 
+    <footer class="site-footer" id="contact"> 
+      <div class="footer-wrap"> 
+        <div class="footer-brand"> 
+          <h2 class="footer-logo">Family of Grace</h2> 
+          <p class="footer-tagline">A community anchored in faith, hope, and love.</p> 
+        </div> 
+        <div class="footer-links"> 
+          <h3>Quick Links</h3> 
+          <ul> 
+            <li><a href="quiz.html">Monthly Quiz</a></li> 
+            <li><a href="#about">About Us</a></li> 
+            <li><a href="#programs">Programs</a></li> 
+            <li><a href="#vision">Vision</a></li> 
+            <li><a href="#contact">Contact</a></li> 
+          </ul> 
+        </div> 
+        <div class="footer-branches"> 
+          <h3>Branches</h3> 
+          <ul> 
+            <li>Lagos</li> 
+            <li>Port Harcourt</li> 
+            <li>Owerri</li> 
+            <li>Abuja</li> 
+            <li>Enugu</li> 
+          </ul> 
+        </div> 
+        <div class="footer-social">
+          <h3>Connect With Us</h3>
+        
+          <!-- Facebook -->
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.2V12h2.3l-.4 3h-1.9v7A10 10 0 0 0 22 12"/>
+            </svg>
+          </a>
+        
+          <!-- WhatsApp -->
+          <a href="https://chat.whatsapp.com/ELIBxmDYfW0EIw8CX6cTu6?mode=ems_copy_t" target="_blank" aria-label="WhatsApp" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.5 14.4c-.3-.2-1.7-.9-1.9-1s-.5-.2-.7.2-.8 1-1 1.2-.4.3-.7.1c-.3-.2-1.3-.5-2.5-1.7-.9-.9-1.5-2-1.7-2.3-.2-.3 0-.5.1-.7s.3-.4.4-.6c.1-.2.1-.3.2-.5.1-.2 0-.4 0-.6s-.7-1.7-.9-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.4 1.4.6 1.9.7.8.2 1.5.1 2.1.1.6-.1 1.7-.7 1.9-1.3s.2-1.2.2-1.3c0-.1-.2-.2-.5-.4z"/>
+              <path d="M20.5 3.5A11.9 11.9 0 1 0 3.5 20.5l.3.3L2 22l2.2-1.8.3.3a11.9 11.9 0 1 0 16-17zM12 20.4a8.3 8.3 0 1 1 0-16.6 8.3 8.3 0 0 1 0 16.6z"/>
+            </svg>
+          </a>
+        
+          <!-- YouTube -->
+          <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.5 6.2s-.2-1.7-.9-2.4c-.8-.9-1.6-.9-2-1C17.5 2.5 12 2.5 12 2.5h0s-5.5 0-8.6.3c-.4 0-1.3 0-2 1-.7.7-.9 2.4-.9 2.4S0 8.2 0 10.1v1.7c0 1.9.2 3.9.2 3.9s.2 1.7.9 2.4c.8.9 1.8.9 2.2 1 1.6.2 6.7.3 6.7.3s5.5 0 8.6-.3c.4 0 1.2 0 2-1 .7-.7.9-2.4.9-2.4s.2-1.9.2-3.9v-1.7c0-1.9-.2-3.9-.2-3.9zM9.5 14.8V8.9l6.2 3-6.2 2.9z"/>
+            </svg>
+          </a>
+        
+          <!-- Instagram -->
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="social-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 2.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 2a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zm4.8-2.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
+            </svg>
+          </a>
+        </div>
+        
+      </div> 
+      <div class="footer-bottom"> 
+        <p>&copy; 2025 Family of Grace. All Rights Reserved.</p> 
+      </div> 
+    </footer> 
+  </div> 
+  
+  <script>
+/* ============== NAVBAR SCROLL EFFECT ============== */
+const navbar = document.querySelector('.navbar');
+const scrollProgress = document.querySelector('.scroll-progress');
+const scrollIndicator = document.querySelector('.scroll-indicator') || createScrollIndicator();
+let lastScrollY = 0;
+
+function createScrollIndicator() {
+  const indicator = document.createElement('div');
+  indicator.className = 'scroll-indicator';
+  indicator.innerHTML = '↑';
+  document.body.appendChild(indicator);
+  indicator.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  return indicator;
+}
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollProgress_percent = (currentScrollY / windowHeight) * 100;
+  
+  // Scroll progress bar
+  if (scrollProgress) {
+    scrollProgress.style.width = scrollProgress_percent + '%';
+  }
+  
+  // Navbar effect
+  if (currentScrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Scroll to top button
+  if (currentScrollY > 300) {
+    scrollIndicator.classList.add('show');
+  } else {
+    scrollIndicator.classList.remove('show');
+  }
+  
+  // Trigger scroll animations
+  triggerScrollAnimations();
+  
+  lastScrollY = currentScrollY;
+}, { passive: true });
+
+/* ============== SCROLL ANIMATION TRIGGER ============== */
+function triggerScrollAnimations() {
+  const elements = document.querySelectorAll('.scroll-fade-in, .scroll-scale-in, .scroll-slide-left, .scroll-slide-right, .stagger-item');
+  
+  elements.forEach(element => {
+    const elementPosition = element.getBoundingClientRect().top;
+    const screenPosition = window.innerHeight * 0.85;
+    
+    if (elementPosition < screenPosition) {
+      element.classList.add('active');
+    }
+  });
+}
+
+/* ============== APPLY SCROLL ANIMATIONS TO ELEMENTS ============== */
+function applyScrollAnimations() {
+  // Vision cards
+  document.querySelectorAll('.vision-card').forEach(card => {
+    card.classList.add('scroll-fade-in', 'stagger-item');
+  });
+  
+  // Program cards
+  document.querySelectorAll('.icon-card').forEach((card, index) => {
+    card.classList.add('scroll-fade-in');
+    card.style.animationDelay = `${index * 0.15}s`;
+  });
+  
+  // Hero content
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    heroContent.classList.add('scroll-slide-left');
+  }
+  
+  // Hero image
+  const heroImage = document.querySelector('.hero-image');
+  if (heroImage) {
+    heroImage.classList.add('scroll-slide-right');
+  }
+  
+  // Vision text
+  const visionText = document.querySelector('.vision-text');
+  if (visionText) {
+    visionText.classList.add('scroll-slide-left');
+  }
+  
+  // Vision image
+  const visionImage = document.querySelector('.vision-image');
+  if (visionImage) {
+    visionImage.classList.add('scroll-slide-right');
+  }
+  
+  // Founder image
+  const founderImage = document.querySelector('.founder-image');
+  if (founderImage) {
+    founderImage.classList.add('scroll-slide-left');
+  }
+  
+  // Founder content
+  const founderContent = document.querySelector('.founder-content');
+  if (founderContent) {
+    founderContent.classList.add('scroll-slide-right');
+  }
+}
+
+// Apply animations on DOM load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyScrollAnimations);
+} else {
+  applyScrollAnimations();
+}
+
+// Trigger animations on initial page load
+window.addEventListener('load', () => {
+  setTimeout(triggerScrollAnimations, 100);
+});
+
+/* ============== SCROLL REVEAL ANIMATION ============== */
+const reveals = document.querySelectorAll('.reveal, .vision-card, .icon-card');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(element => {
+  element.classList.add('reveal');
+  revealObserver.observe(element);
+});
+
+/* ============== SMOOTH SCROLL FOR ANCHOR LINKS ============== */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href !== '#') {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+
+/* ============== BUTTON RIPPLE EFFECT ============== */
+document.querySelectorAll('.btn').forEach(button => {
+  button.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.position = 'absolute';
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.borderRadius = '50%';
+    ripple.style.background = 'rgba(255,255,255,0.5)';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.animation = 'ripple 0.6s ease-out';
+    ripple.style.opacity = '1';
+    
+    this.style.position = 'relative';
+    this.style.overflow = 'hidden';
+    this.appendChild(ripple);
+    
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+/* ============== ADD RIPPLE KEYFRAMES ============== */
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+/* ============== CARD HOVER 3D EFFECT ============== */
+document.addEventListener('mousemove', (e) => {
+  const cards = document.querySelectorAll('.vision-card, .icon-card');
+  
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 15;
+    const rotateY = (centerX - x) / 15;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+  });
+}, { passive: true });
+
+document.addEventListener('mouseleave', () => {
+  const cards = document.querySelectorAll('.vision-card, .icon-card');
+  cards.forEach(card => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+  });
+});
+
+/* ============== LAZY LOAD IMAGES ============== */
+if ('IntersectionObserver' in window) {
+  const imageObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          img.classList.add('loaded');
+        }
+        imageObserver.unobserve(img);
+      }
+    });
+  });
+  
+  document.querySelectorAll('img[data-src]').forEach(img => {
+    imageObserver.observe(img);
+  });
+}
+
+/* ============== PARALLAX EFFECT ============== */
+window.addEventListener('scroll', () => {
+  const parallaxElements = document.querySelectorAll('[data-parallax]');
+  parallaxElements.forEach(el => {
+    const scrollPosition = window.pageYOffset;
+    const elementPosition = el.offsetTop;
+    const distance = scrollPosition - elementPosition;
+    el.style.transform = `translateY(${distance * 0.5}px)`;
+  });
+}, { passive: true });
+
+  </script>
+</body> 
+</html>

@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Family of Grace Bible Quiz - Professional assessment platform for the Book of Ruth">
+  <meta name="author" content="Family of Grace">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Family of Grace Bible Quiz | Book of Ruth Assessment</title>
+  <link rel="icon" type="image/x-icon" href="./photo_2025-09-03_01-35-31-removebg-preview.png">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
+  
+  <style>
+    /* ========== CSS VARIABLES & RESET ========== */
+    :root {
+      --primary: #2c5aa0;
+      --primary-light: #5b8def;
+      --primary-dark: #1a3a5c;
+      --secondary: #f39c12;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --warning: #f59e0b;
+      --info: #3498db;
+      --text-primary: #2c3e50;
+      --text-secondary: #7f8c8d;
+      --text-light: #ecf0f1;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #ecf0f1;
+      --border: #e0e6ed;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+      --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.18);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-primary);
+      background-color: var(--bg-secondary);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      width: min(1200px, 95%);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .container-lg {
+      width: min(1400px, 98%);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ========== HEADER & NAVIGATION ========== */
+    header.navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-primary);
+      border-bottom: 2px solid var(--border);
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition);
+    }
+
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+      transition: color var(--transition);
+    }
+
+    .navbar-brand:hover {
+      color: var(--primary-dark);
+    }
+
+    .navbar-brand-logo {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--primary), var(--info));
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .navbar-brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .navbar-nav a {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      transition: all var(--transition);
+    }
+
+    .navbar-nav a:hover {
+      background-color: var(--bg-secondary);
+      color: var(--primary);
+    }
+
+    /* ========== MAIN SECTIONS ========== */
+    main {
+      padding: 2rem 0;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section > h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    section > h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    section > .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ========== BADGES & LABELS ========== */
+    .badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background-color: var(--info);
+      color: white;
+    }
+
+    .badge-secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .badge-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .badge-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .label-text {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== CARDS & CONTAINERS ========== */
+    .card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
+    }
+
+    .card-compact {
+      padding: 1.5rem;
+    }
+
+    /* ========== MODALS ========== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal-content {
+      background: var(--bg-primary);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      max-width: 500px;
+      width: 95%;
+      box-shadow: var(--shadow-xl);
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .modal-content h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .modal-content .modal-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .modal-content .form-notice {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--info);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      margin-top: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    /* ========== FORMS ========== */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 0.875rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all var(--transition);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1);
+      background-color: var(--bg-primary);
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: var(--danger);
+      background-color: rgba(231, 76, 60, 0.05);
+    }
+
+    .form-group input.error:focus,
+    .form-group select.error:focus {
+      box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+    }
+
+    .form-error {
+      font-size: 0.875rem;
+      color: var(--danger);
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .form-error.show {
+      display: block;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--border);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: #229954;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: #c0392b;
+    }
+
+    .btn-warning {
+      background-color: var(--warning);
+      color: white;
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background-color: #e08a0e;
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-group-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* ========== QUIZ INTERFACE ========== */
+    .quiz-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 2rem;
+    }
+
+    .quiz-header h2 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .quiz-header .subtitle {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .quiz-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .stat-box {
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      text-align: center;
+      transition: all var(--transition);
+    }
+
+    .stat-box:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-box .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-box .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-box.warning .stat-value {
+      color: var(--warning);
+    }
+
+    .stat-box.danger .stat-value {
+      color: var(--danger);
+    }
+
+    .stat-box.success .stat-value {
+      color: var(--success);
+    }
+
+    /* ========== PROGRESS BAR ========== */
+    .progress-container {
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+      width: 100%;
+      transition: width 0.4s ease;
+      border-radius: 999px;
+    }
+
+    /* ========== QUIZ QUESTIONS ========== */
+    .question-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .question-card {
+      background: var(--bg-primary);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: all var(--transition);
+    }
+
+    .question-card:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1);
+    }
+
+    .question-card.answered {
+      border-color: var(--primary-light);
+      background: linear-gradient(135deg, rgba(91, 141, 239, 0.02), transparent);
+    }
+
+    .question-number {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .question-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition);
+      background: var(--bg-secondary);
+    }
+
+    .option-label:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--primary-light);
+    }
+
+    .option-label input[type="radio"] {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .option-text {
+      flex: 1;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .option-label.correct {
+      background: rgba(39, 174, 96, 0.1);
+      border-color: var(--success);
+    }
+
+    .option-label.correct .option-text {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .option-label.incorrect {
+      background: rgba(231, 76, 60, 0.1);
+      border-color: var(--danger);
+    }
+
+    .option-label.incorrect .option-text {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    /* ========== ALERTS & MESSAGES ========== */
+    .alert {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      border-left: 4px solid;
+      display: none;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert-success {
+      background: rgba(39, 174, 96, 0.1);
+      border-left-color: var(--success);
+      color: #229954;
+    }
+
+    .alert-info {
+      background: rgba(52, 152, 219, 0.1);
+      border-left-color: var(--info);
+      color: #2874a6;
+    }
+
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-left-color: var(--warning);
+      color: #b8860b;
+    }
+
+    .alert-danger {
+      background: rgba(231, 76, 60, 0.1);
+      border-left-color: var(--danger);
+      color: #c0392b;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ========== LEADERBOARD ========== */
+    .leaderboard-wrapper {
+      margin-top: 2rem;
+    }
+
+    .leaderboard-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .leaderboard-table thead {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+
+    .leaderboard-table th {
+      padding: 1.25rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .leaderboard-table td {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .leaderboard-table tbody tr:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-weight: 700;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .rank-badge-1 {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+    }
+
+    .rank-badge-2 {
+      background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+      box-shadow: 0 2px 8px rgba(189, 195, 199, 0.3);
+    }
+
+    .rank-badge-3 {
+      background: linear-gradient(135deg, #d4663b, #a0411f);
+      box-shadow: 0 2px 8px rgba(212, 102, 59, 0.3);
+    }
+
+    .rank-badge-other {
+      background: var(--text-secondary);
+    }
+
+    .score-badge {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .score-badge-perfect {
+      background: rgba(39, 174, 96, 0.2);
+      color: var(--success);
+    }
+
+    .score-badge-good {
+      background: rgba(52, 152, 219, 0.2);
+      color: var(--info);
+    }
+
+    .score-badge-average {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .score-badge-low {
+      background: rgba(231, 76, 60, 0.2);
+      color: var(--danger);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+      color: white;
+      padding: 3rem 0;
+      margin-top: 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    footer h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1.5rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* ========== RESPONSIVE DESIGN ========== */
+    @media (max-width: 768px) {
+      section > h1 {
+        font-size: 1.75rem;
+      }
+
+      section > h2 {
+        font-size: 1.5rem;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .quiz-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-box .stat-value {
+        font-size: 2rem;
+      }
+
+      .leaderboard-table {
+        font-size: 0.875rem;
+      }
+
+      .leaderboard-table th,
+      .leaderboard-table td {
+        padding: 0.75rem;
+      }
+
+      .navbar-nav {
+        gap: 1rem;
+      }
+
+      .navbar-nav a {
+        padding: 0.5rem;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+
+      .question-card {
+        padding: 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .navbar-brand {
+        font-size: 1rem;
+      }
+
+      .navbar-brand-logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      section > h1 {
+        font-size: 1.5rem;
+      }
+
+      section > h2 {
+        font-size: 1.25rem;
+      }
+
+      .stat-box .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+      }
+
+      .question-card {
+        padding: 1rem;
+      }
+
+      .leaderboard-table th,
+      .leaderboard-table td {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      .rank-badge {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+      }
+    }
+
+    /* ========== PRINT STYLES ========== */
+    @media print {
+      * {
+        box-shadow: none !important;
+      }
+
+      body {
+        background: white;
+      }
+
+      header,
+      footer {
+        display: none;
+      }
+
+      .btn-group,
+      .modal-overlay {
+        display: none;
+      }
+
+      .question-card,
+      .card {
+        page-break-inside: avoid;
+        border: 1px solid #ccc;
+        box-shadow: none !important;
+      }
+
+      @page {
+        margin: 1cm;
+      }
+    }
+
+    /* ========== ACCESSIBILITY ========== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    *:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    button:focus,
+    a:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / NAVIGATION -->
+  <header class="navbar" role="banner">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="index.html" class="navbar-brand" title="Return to home">
+          <div class="navbar-brand-logo">
+            <img src="./photo_2025-09-03_01-35-31-removebg-preview.png" alt="Family of Grace Logo">
+          </div>
+          <span>Family of Grace</span>
+        </a>
+        <nav class="navbar-nav" role="navigation" aria-label="Main navigation">
+          <a href="index.html" title="Go to home page">Home</a>
+          <a href="#leaderboard" title="View quiz leaderboard">Leaderboard</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGIN MODAL -->
+  <div class="modal-overlay" id="loginModal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-content">
+      <h2 id="modalTitle">Quiz Registration</h2>
+      <p id="modalDesc" class="modal-subtitle">
+        Enter your details to begin the Family of Grace Bible Quiz on the Book of Ruth
+      </p>
+
+      <form id="loginForm" method="POST" novalidate>
+        <div class="form-group">
+          <label for="playerName">Full Name <span style="color: var(--danger);">*</span></label>
+          <input 
+            type="text" 
+            id="playerName" 
+            placeholder="John Doe" 
+            autocomplete="name"
+            required
+            aria-required="true"
+          >
+          <span class="form-error" id="nameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="playerCode">Access Code <span style="color: var(--danger);">*</span></label>
+          <input 
+            type="text" 
+            id="playerCode" 
+            placeholder="e.g., FG171" 
+            autocomplete="off"
+            required
+            aria-required="true"
+            style="text-transform: uppercase;"
+          >
+          <span class="form-error" id="codeError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="playerEmail">Email Address <span style="color: var(--danger);">*</span></label>
+          <input 
+            type="email" 
+            id="playerEmail" 
+            placeholder="john@example.com" 
+            autocomplete="email"
+            required
+            aria-required="true"
+          >
+          <span class="form-error" id="emailError"></span>
+        </div>
+
+        <button type="submit" id="startBtn" class="btn btn-primary btn-block btn-lg">
+          Start Quiz
+        </button>
+
+        <div class="form-notice">
+          📋 <strong>Quiz Details:</strong> 21 questions • 15 minutes • Book of Ruth 
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN QUIZ CONTENT -->
+  <main id="quizMain" style="display: none;">
+    <div class="container-lg">
+      <!-- QUIZ HEADER SECTION -->
+      <section class="quiz-header">
+        <div class="badge">📖 BIBLE QUIZ ASSESSMENT</div>
+        <h2>Family of Grace: Book of Ruth Challenge</h2>
+        <p class="subtitle">
+          Answer 21 randomly selected questions about the Book of Ruth. Complete all questions within the 15-minute time limit.
+        </p>
+      </section>
+
+      <!-- QUIZ STATISTICS SECTION -->
+      <section>
+        <h3 class="sr-only">Quiz Progress Statistics</h3>
+        <div class="quiz-stats">
+          <div class="stat-box" id="timerBox">
+            <div class="stat-label">⏱️ Time Remaining</div>
+            <div class="stat-value" id="timeDisplay" aria-live="polite">15:00</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">📝 Answered</div>
+            <div class="stat-value" id="answeredCount" aria-live="polite">0/21</div>
+          </div>
+          <!-- <div class="stat-box">
+            <div class="stat-label">⭐ Current Score</div>
+            <div class="stat-value" id="currentScore" aria-live="polite">0%</div>
+          </div> -->
+        </div>
+      </section>
+
+      <!-- PROGRESS BAR SECTION -->
+      <section>
+        <h3 class="sr-only">Quiz Progress</h3>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-bar-fill" id="progressFill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ CONTENT CARD -->
+      <div class="card">
+        <!-- RESULT MESSAGE -->
+        <div class="alert" id="resultMessage" role="alert" aria-live="polite"></div>
+
+        <!-- QUIZ FORM -->
+        <form id="quizForm" class="question-container" autocomplete="off" novalidate>
+          <!-- Questions will be rendered here by JavaScript -->
+        </form>
+
+        <!-- ACTION BUTTONS -->
+        <div class="btn-group" style="margin-top: 2rem;">
+          <button id="submitBtn" class="btn btn-primary btn-lg" type="button" title="Submit all answers">
+            ✓ Submit Answers
+          </button>
+          <button id="printBtn" class="btn btn-secondary btn-lg" type="button" title="Print quiz results">
+            🖨️ Print Results
+          </button>
+          <button id="exportBtn" class="btn btn-warning btn-lg" type="button" title="Export results as CSV">
+            📥 Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD SECTION -->
+    <section id="leaderboard">
+      <div class="container-lg">
+        <h2>🏆 Quiz Leaderboard</h2>
+        <p class="subtitle">Top performers in the Family of Grace Bible Quiz</p>
+
+        <div class="card">
+          <div class="leaderboard-wrapper">
+            <div class="leaderboard-header">
+              <p class="label-text">
+                <strong id="leaderboardCount">0</strong> participants have completed the assessment
+              </p>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table class="leaderboard-table" role="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                  <tr>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                      No results yet. Complete the quiz to appear here.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container-lg">
+      <div class="footer-inner">
+        <div>
+          <h3>About This Quiz</h3>
+          <p>The Family of Grace Bible Quiz is an assessment platform designed to test knowledge of the Book of Ruth in a professional academic setting.</p>
+        </div>
+        <div>
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#leaderboard">Leaderboard</a></li>
+            <li><a href="EMAILJS_SETUP_GUIDE.md">Setup Guide</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © <span id="year"></span> Family of Grace. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ⚙️ EMAILJS CONFIGURATION
+    const EMAILJS_PUBLIC_KEY = "cWsZ9EVl7BcTcGNNP";
+    const EMAILJS_SERVICE_ID = "service_33oy39w";
+    const EMAILJS_TEMPLATE_ID = "template_y1ahe6k";
+
+    // Initialize EmailJS
+    setTimeout(() => {
+      if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        console.log('✅ EmailJS initialized successfully');
+      }
+    }, 100);
+
+    // Valid access codes
+    const VALID_CODES = [
+      "FG171", "FG122", "FG193", "FG425", "FG149",
+      "FG432", "FG782", "FG800", "FG042", "FG510",
+      "FG191", "FG182", "FG163", "FG414", "FG195",
+      "FG116", "FG148", "FG119", "FG530", "FG200"
+    ];
+
+    // Question bank
+    const QUESTION_BANK = [
+      { q: "What was the name of Elimelech's hometown in Judah where he lived before going to Moab?", options: ["Bethlehem-judah", "Jerusalem", "Hebron", "Ramah"], a: 0 },
+      { q: "How long did Naomi's family dwell in the country of Moab before her sons died?", options: ["Five years", "Seven years", "About ten years", "Twelve years"], a: 2 },
+      { q: "What were the names of Elimelech and Naomi's two sons?", options: ["Mahlon and Chilion", "Mahlon and Boaz", "Chilion and Obed", "Mahlon and Obed"], a: 0 },
+      { q: "Which daughter-in-law did Naomi kiss before she returned to her people?", options: ["Ruth", "Orpah", "Both Ruth and Orpah", "Neither of them"], a: 1 },
+      { q: "What specific reason did Naomi give to discourage her daughters-in-law from following her?", options: ["She had no more sons in her womb to be their husbands", "She was too poor to support them", "They would be outcasts in Israel", "The journey was too dangerous"], a: 0 },
+      { q: "What name did Naomi ask to be called when she returned to Bethlehem, and what does it mean?", options: ["Naomi, meaning pleasant", "Mara, meaning bitter", "Ruth, meaning compassionate", "Orpah, meaning back of neck"], a: 1 },
+      { q: "At what time of year did Naomi and Ruth arrive in Bethlehem?", options: ["At the beginning of wheat harvest", "At the beginning of barley harvest", "At the end of harvest season", "During the grape harvest"], a: 1 },
+      { q: "How is Boaz described in relation to Elimelech?", options: ["A distant cousin", "A brother", "A mighty man of wealth and a kinsman of Elimelech's", "Elimelech's nephew"], a: 2 },
+      { q: "What did Ruth ask Naomi for permission to do?", options: ["Go to the marketplace", "Go to the field and glean ears of corn after someone in whose sight she would find grace", "Go to the well to draw water", "Go to the city gate"], a: 1 },
+      { q: "What greeting did Boaz give to his reapers when he came from Bethlehem?", options: ["Peace be with you", "The Lord bless you", "Grace and peace", "God be with you"], a: 1 },
+      { q: "What did Boaz command his young men NOT to do to Ruth?", options: ["Not to speak to her", "Not to rebuke her", "Not to touch her", "Not to allow her to glean"], a: 2 },
+      { q: "What specific instruction did Boaz give his young men regarding Ruth's gleaning?", options: ["To give her the best grain", "To let fall some handfuls of purpose for her", "To help her gather grain", "To share their lunch with her"], a: 1 },
+      { q: "How much barley did Ruth glean and beat out that day?", options: ["Half an ephah", "About an ephah", "Two ephahs", "Three ephahs"], a: 1 },
+      { q: "What did Ruth give to Naomi after she had eaten and was sufficed?", options: ["Money from selling grain", "Bread from Boaz", "What she had reserved after she was sufficed", "A gift from the reapers"], a: 2 },
+      { q: "What did Naomi tell Ruth that Boaz would be doing that night?", options: ["Threshing wheat", "Winnowing barley in the threshing floor", "Counting his grain", "Celebrating the harvest"], a: 1 },
+      { q: "What did Naomi instruct Ruth to do before going to the threshing floor?", options: ["Take food and drink", "Wash herself, anoint herself, and put on her raiment", "Tell Boaz she was coming", "Bring offerings to the Lord"], a: 1 },
+      { q: "According to Naomi's instructions, when should Ruth make herself known to Boaz?", options: ["As soon as she arrived at the threshing floor", "When he was eating", "After he had finished eating and drinking", "In the morning"], a: 2 },
+      { q: "Where specifically did Naomi tell Ruth to lie down?", options: ["At Boaz's head", "At Boaz's feet", "Near the door", "By the grain pile"], a: 1 },
+      { q: "At what time did Boaz discover Ruth lying at his feet?", options: ["At sunset", "At midnight", "At dawn", "In the early evening"], a: 1 },
+      { q: "What reason did Boaz give for blessing Ruth for coming to him?", options: ["Because she showed kindness in not going after young men, whether poor or rich", "Because she was faithful to Naomi", "Because she worked hard in the fields", "Because she was humble and obedient"], a: 0 },
+      { q: "How much barley did Boaz measure out for Ruth before she left in the morning?", options: ["Three measures of barley", "Six measures of barley", "Ten measures of barley", "Twelve measures of barley"], a: 1 }
+    ];
+
+    const TOTAL_QUESTIONS = 21;
+    const TOTAL_TIME = 900;
+    const STORAGE_KEY = "fg_quiz_results";
+
+    // Application state
+    let state = {
+      currentPlayer: null,
+      selectedAnswers: {},
+      pickedQuestions: [],
+      timeRemaining: TOTAL_TIME,
+      timerInterval: null,
+      isSubmitted: false,
+      quizStartTime: null
+    };
+
+    // Utility functions
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function pickRandomQuestions() {
+      const indices = [...Array(QUESTION_BANK.length).keys()];
+      shuffle(indices);
+      return indices.slice(0, TOTAL_QUESTIONS).map(i => QUESTION_BANK[i]);
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+      const timeDisplay = document.getElementById('timeDisplay');
+      const timerBox = document.getElementById('timerBox');
+      if (!timeDisplay) return;
+
+      timeDisplay.textContent = formatTime(state.timeRemaining);
+      timerBox.className = 'stat-box';
+
+      if (state.timeRemaining <= 60) {
+        timerBox.classList.add('danger');
+      } else if (state.timeRemaining <= 300) {
+        timerBox.classList.add('warning');
+      }
+    }
+
+    function updateStats() {
+      let answered = 0;
+      let correct = 0;
+
+      state.pickedQuestions.forEach((q, idx) => {
+        const selected = state.selectedAnswers[idx];
+        if (selected !== undefined) {
+          answered++;
+          if (selected === q.a) correct++;
+        }
+      });
+
+      const answerEl = document.getElementById('answeredCount');
+      const scoreEl = document.getElementById('currentScore');
+      if (answerEl) answerEl.textContent = `${answered}/${TOTAL_QUESTIONS}`;
+      if (scoreEl) scoreEl.textContent = `${Math.round((correct / TOTAL_QUESTIONS) * 100)}%`;
+    }
+
+    function renderQuiz() {
+      state.pickedQuestions = pickRandomQuestions();
+      state.selectedAnswers = {};
+      const form = document.getElementById('quizForm');
+      if (!form) return;
+
+      form.innerHTML = '';
+
+      state.pickedQuestions.forEach((question, qIdx) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.setAttribute('role', 'group');
+        card.setAttribute('aria-labelledby', `q${qIdx}_title`);
+
+        const header = document.createElement('div');
+        header.className = 'question-number';
+        header.textContent = `Question ${qIdx + 1} of ${TOTAL_QUESTIONS}`;
+        card.appendChild(header);
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'question-text';
+        titleEl.id = `q${qIdx}_title`;
+        titleEl.textContent = question.q;
+        card.appendChild(titleEl);
+
+        const optionsContainer = document.createElement('fieldset');
+        optionsContainer.className = 'question-options';
+        optionsContainer.setAttribute('role', 'group');
+
+        question.options.forEach((option, oIdx) => {
+          const label = document.createElement('label');
+          label.className = 'option-label';
+          const inputId = `q${qIdx}_opt${oIdx}`;
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = `question_${qIdx}`;
+          input.value = oIdx;
+          input.id = inputId;
+
+          input.addEventListener('change', (e) => {
+            state.selectedAnswers[qIdx] = parseInt(e.target.value);
+            card.classList.add('answered');
+            updateStats();
+          });
+
+          label.appendChild(input);
+
+          const optionText = document.createElement('span');
+          optionText.className = 'option-text';
+          optionText.textContent = option;
+          label.appendChild(optionText);
+
+          optionsContainer.appendChild(label);
+        });
+
+        card.appendChild(optionsContainer);
+        form.appendChild(card);
+      });
+
+      updateStats();
+    }
+
+    function startTimer() {
+      state.timeRemaining = TOTAL_TIME;
+      state.quizStartTime = Date.now();
+      state.isSubmitted = false;
+
+      updateTimerDisplay();
+
+      clearInterval(state.timerInterval);
+      state.timerInterval = setInterval(() => {
+        state.timeRemaining--;
+        updateTimerDisplay();
+
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) {
+          const percentage = Math.max(0, (state.timeRemaining / TOTAL_TIME) * 100);
+          progressFill.style.width = `${percentage}%`;
+          progressFill.setAttribute('aria-valuenow', Math.round(percentage));
+        }
+
+        if (state.timeRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          submitQuiz(true);
+        }
+      }, 1000);
+    }
+
+    function submitQuiz(autoSubmit = false) {
+      if (state.isSubmitted) return;
+      state.isSubmitted = true;
+      clearInterval(state.timerInterval);
+
+      const form = document.getElementById('quizForm');
+      let score = 0;
+
+      state.pickedQuestions.forEach((question, qIdx) => {
+        const selected = state.selectedAnswers[qIdx];
+        const correct = question.a;
+        const options = form.querySelectorAll(`input[name="question_${qIdx}"]`);
+
+        options.forEach((input) => {
+          const label = input.parentElement;
+          const optIdx = parseInt(input.value);
+
+          label.classList.remove('correct', 'incorrect');
+          if (optIdx === correct) {
+            label.classList.add('correct');
+          } else if (optIdx === selected && selected !== correct) {
+            label.classList.add('incorrect');
+          }
+        });
+
+        if (selected === correct) score++;
+      });
+
+      const timeUsed = Math.floor((Date.now() - state.quizStartTime) / 1000);
+      const percentage = Math.round((score / TOTAL_QUESTIONS) * 100);
+
+      const resultMsg = document.getElementById('resultMessage');
+      if (resultMsg) {
+        const message = autoSubmit ? '⏱️ Time is up!' : '✅ Quiz submitted successfully!';
+        const alertClass = autoSubmit ? 'alert-info' : 'alert-success';
+        resultMsg.className = `alert show ${alertClass}`;
+        resultMsg.setAttribute('role', 'alert');
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'alert-title';
+        titleEl.textContent = message;
+
+        resultMsg.innerHTML = '';
+        resultMsg.appendChild(titleEl);
+
+        const contentEl = document.createElement('div');
+        contentEl.innerHTML = `You scored <strong>${score}/${TOTAL_QUESTIONS}</strong> (${percentage}%) in ${formatTime(timeUsed)}`;
+        resultMsg.appendChild(contentEl);
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) submitBtn.disabled = true;
+
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+      data.push({
+        name: state.currentPlayer.name,
+        code: state.currentPlayer.code,
+        email: state.currentPlayer.email,
+        score: score,
+        percentage: percentage,
+        time: timeUsed,
+        date: new Date().toLocaleString()
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+      updateLeaderboard();
+      sendResultsEmail(state.currentPlayer.name, state.currentPlayer.email, score, percentage, timeUsed);
+    }
+
+    function sendResultsEmail(name, email, score, percentage, timeUsed) {
+      if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY_HERE") {
+        console.info('ℹ️ EmailJS not configured yet. Results saved but email not sent.');
+        return;
+      }
+
+      const templateParams = {
+        to_name: name,
+        to_email: email,
+        score: score,
+        percentage: percentage,
+        time_used: formatTime(timeUsed),
+        date: new Date().toLocaleString()
+      };
+
+      if (typeof emailjs === 'undefined') {
+        console.warn('⚠️ EmailJS library not loaded. Results saved but email not sent.');
+        return;
+      }
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+        .then((response) => {
+          console.log('✅ Email sent successfully to ' + email);
+        })
+        .catch((error) => {
+          console.error('⚠️ Email failed to send:', error);
+        });
+    }
+
+    function updateLeaderboard() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+
+      data.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.time - b.time;
+      });
+
+      const tbody = document.getElementById('leaderboardBody');
+      const countEl = document.getElementById('leaderboardCount');
+      if (!tbody) return;
+
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No results yet. Complete the quiz to appear here.</td></tr>';
+        if (countEl) countEl.textContent = '0';
+        return;
+      }
+
+      tbody.innerHTML = '';
+      data.forEach((rec, idx) => {
+        const tr = document.createElement('tr');
+
+        const rankCell = document.createElement('td');
+        const rankSpan = document.createElement('span');
+        rankSpan.className = 'rank-badge';
+
+        if (idx === 0) rankSpan.classList.add('rank-badge-1');
+        else if (idx === 1) rankSpan.classList.add('rank-badge-2');
+        else if (idx === 2) rankSpan.classList.add('rank-badge-3');
+        else rankSpan.classList.add('rank-badge-other');
+
+        rankSpan.textContent = idx + 1;
+        rankCell.appendChild(rankSpan);
+        tr.appendChild(rankCell);
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = escapeHtml(rec.name);
+        tr.appendChild(nameCell);
+
+        const scoreCell = document.createElement('td');
+        const scoreBadge = document.createElement('span');
+        scoreBadge.className = 'score-badge';
+
+        if (rec.percentage === 100) {
+          scoreBadge.classList.add('score-badge-perfect');
+        } else if (rec.percentage >= 80) {
+          scoreBadge.classList.add('score-badge-good');
+        } else if (rec.percentage >= 60) {
+          scoreBadge.classList.add('score-badge-average');
+        } else {
+          scoreBadge.classList.add('score-badge-low');
+        }
+
+        scoreBadge.textContent = `${rec.score}/${TOTAL_QUESTIONS}`;
+        scoreCell.appendChild(scoreBadge);
+        tr.appendChild(scoreCell);
+
+        const percentageCell = document.createElement('td');
+        percentageCell.textContent = `${rec.percentage}%`;
+        tr.appendChild(percentageCell);
+
+        const timeCell = document.createElement('td');
+        timeCell.textContent = formatTime(rec.time);
+        tr.appendChild(timeCell);
+
+        const dateCell = document.createElement('td');
+        dateCell.textContent = rec.date;
+        tr.appendChild(dateCell);
+
+        tbody.appendChild(tr);
+      });
+
+      if (countEl) countEl.textContent = data.length;
+    }
+
+    function exportCSV() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        alert('No results to export');
+        return;
+      }
+
+      const data = JSON.parse(raw);
+      data.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.time - b.time;
+      });
+
+      const rows = [['Rank', 'Name', 'Code', 'Score', 'Percentage', 'Time (s)', 'Date']];
+      data.forEach((rec, idx) => {
+        rows.push([
+          idx + 1,
+          rec.name,
+          rec.code,
+          `${rec.score}/${TOTAL_QUESTIONS}`,
+          `${rec.percentage}%`,
+          rec.time,
+          rec.date
+        ]);
+      });
+
+      const csv = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `quiz_results_${new Date().getTime()}.csv`;
+      link.click();
+    }
+
+    function printResults() {
+      window.print();
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function validateForm() {
+      const nameInput = document.getElementById('playerName');
+      const codeInput = document.getElementById('playerCode');
+      const emailInput = document.getElementById('playerEmail');
+
+      let isValid = true;
+
+      // Validate name
+      const name = (nameInput.value || '').trim();
+      if (!name) {
+        nameInput.classList.add('error');
+        document.getElementById('nameError').textContent = 'Full name is required';
+        document.getElementById('nameError').classList.add('show');
+        isValid = false;
+      } else {
+        nameInput.classList.remove('error');
+        document.getElementById('nameError').classList.remove('show');
+      }
+
+      // Validate code
+      const code = (codeInput.value || '').trim().toUpperCase();
+      if (!code) {
+        codeInput.classList.add('error');
+        document.getElementById('codeError').textContent = 'Access code is required';
+        document.getElementById('codeError').classList.add('show');
+        isValid = false;
+      } else if (!VALID_CODES.includes(code)) {
+        codeInput.classList.add('error');
+        document.getElementById('codeError').textContent = 'Invalid access code. Please try again.';
+        document.getElementById('codeError').classList.add('show');
+        isValid = false;
+      } else {
+        codeInput.classList.remove('error');
+        document.getElementById('codeError').classList.remove('show');
+      }
+
+      // Validate email
+      const email = (emailInput.value || '').trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        emailInput.classList.add('error');
+        document.getElementById('emailError').textContent = 'Email address is required';
+        document.getElementById('emailError').classList.add('show');
+        isValid = false;
+      } else if (!emailRegex.test(email)) {
+        emailInput.classList.add('error');
+        document.getElementById('emailError').textContent = 'Please enter a valid email address';
+        document.getElementById('emailError').classList.add('show');
+        isValid = false;
+      } else {
+        emailInput.classList.remove('error');
+        document.getElementById('emailError').classList.remove('show');
+      }
+
+      return isValid;
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginForm = document.getElementById('loginForm');
+      const startBtn = document.getElementById('startBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const exportBtn = document.getElementById('exportBtn');
+      const printBtn = document.getElementById('printBtn');
+      const playerNameInput = document.getElementById('playerName');
+      const playerCodeInput = document.getElementById('playerCode');
+      const playerEmailInput = document.getElementById('playerEmail');
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          if (!validateForm()) return;
+
+          const name = playerNameInput.value.trim();
+          const code = playerCodeInput.value.trim().toUpperCase();
+          const email = playerEmailInput.value.trim();
+
+          state.currentPlayer = { name, code, email };
+          document.getElementById('loginModal').style.display = 'none';
+          document.getElementById('quizMain').style.display = 'block';
+          renderQuiz();
+          startTimer();
+          updateLeaderboard();
+        });
+      }
+
+      if (startBtn) {
+        startBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          loginForm.dispatchEvent(new Event('submit'));
+        });
+      }
+
+      if (submitBtn) {
+        submitBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (!state.isSubmitted) submitQuiz(false);
+        });
+      }
+
+      if (exportBtn) {
+        exportBtn.addEventListener('click', exportCSV);
+      }
+
+      if (printBtn) {
+        printBtn.addEventListener('click', printResults);
+      }
+
+      [playerNameInput, playerCodeInput, playerEmailInput].forEach(input => {
+        if (input) {
+          input.addEventListener('input', () => {
+            input.classList.remove('error');
+            const errorEl = document.getElementById(input.id + 'Error') || document.querySelector(`#${input.id}Error`);
+            if (errorEl) errorEl.classList.remove('show');
+          });
+        }
+      });
+
+      updateLeaderboard();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Family of Grace</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<style>
+  .logo img{
+  height: 40px;
+  width: 40px;
+}
+</style>
+<body>
+  <header class="navbar">
+    <div class="container inner">
+      <a class="brand" href="index.html">
+        <div class="logo"><img src="./photo_2025-09-03_01-35-31.jpg" alt=""></div>
+        <div>Family of Grace </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="attendance.html" class="cta">Attendance</a>
+        <a href="quiz.html">Quiz</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <div class="badge">ATTENDANCE MANAGER</div>
+      <h1>Mark & Track Attendance</h1>
+      <p class="muted">Mark each member present for a selected date.</p>
+      <div class="card" style="display:grid; gap:12px">
+        <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center">
+          <div>
+            <label for="date">Select Date</label>
+            <input id="date" class="date" type="date">
+          </div>
+          <div>
+            <label for="service">Service</label>
+            <select id="service">
+              <option value="Sunday 9am">Sunday 9am</option>
+              <option value="Sunday 11am">Sunday 11am</option>
+              <option value="Wednesday 6pm">Wednesday 6pm</option>
+              <option value="Prayer 6am">Prayer 6am</option>
+            </select>
+          </div>
+          <button id="saveBtn" class="btn">Save Attendance</button>
+          <button id="resetBtn" class="btn secondary">Clear Checks</button>
+          <button id="exportBtn" class="btn warning">Export CSV</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr><th>#</th><th>Member Name</th><th>Present</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="kpis">
+          <div class="kpi"><div class="muted">Total Members</div><div id="kTotal" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Present</div><div id="kPresent" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Absent</div><div id="kAbsent" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Attendance %</div><div id="kPct" class="value">0%</div></div>
+        </div>
+      </div>
+      <div class="notice">Tip: You can revisit any date to view or edit attendance.</div>
+
+      <div class="section">
+        <h2>Saved Records (Recent)</h2>
+        <div class="card" style="overflow:auto">
+          <table class="table">
+            <thead><tr><th>Date</th><th>Service</th><th>Present</th><th>Absent</th><th>Actions</th></tr></thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="section prayer-section">
+      <div class="badge">MONDAY WEEKLY PRAYER</div>
+      <h2>Prayer Attendance</h2>
+      <p class="muted">Track weekly prayer attendance and contact details for each member.</p>
+    
+      <div class="card" style="display:grid; gap:12px">
+        <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:center">
+          <button id="savePrayerBtn" class="btn">Save Attendance</button>
+          <button id="clearPrayerBtn" class="btn secondary">Clear Inputs</button>
+          <button id="exportPrayerBtn" class="btn warning">Export CSV</button>
+        </div>
+    
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Member Name</th>
+              <th>Present</th>
+              <th>Phone Number</th>
+              <th>SIM Provider</th>
+            </tr>
+          </thead>
+          <tbody id="prayerBody"></tbody>
+        </table>
+    
+        <div class="kpis">
+          <div class="kpi"><div class="muted">Total Members</div><div id="pTotal" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Present</div><div id="pPresent" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Absent</div><div id="pAbsent" class="value">0</div></div>
+          <div class="kpi"><div class="muted">Attendance %</div><div id="pPct" class="value">0%</div></div>
+        </div>
+      </div>
+    
+      <div class="section">
+        <h2>Saved Prayer Records</h2>
+        <div class="card" style="overflow:auto">
+          <table class="table">
+            <thead><tr><th>Member</th><th>Present</th><th>Phone</th><th>SIM</th></tr></thead>
+            <tbody id="prayerRecordsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Family of Grace Church</div>
+  </footer>
+
+  <script>
+    // === Members List ===
+    const NAMES = [
+      "Grace Adebayo","John Okoro","Mary Ibe","Samuel Adeyemi","Joy Peters",
+      "Daniel Musa","Esther Bala","David Eze","Ruth Kole","Michael Johnson"
+    ];
+    
+    // === DOM Elements ===
+    const tbody = document.getElementById('tbody');
+    const dateInput = document.getElementById('date');
+    const serviceSel = document.getElementById('service');
+    const exportBtn = document.getElementById('exportBtn');
+    const recordsBody = document.getElementById('recordsBody');
+    
+    // === Init date to today ===
+    const today = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    dateInput.value = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+    
+    // === LocalStorage key ===
+    const STORAGE_KEY = "fg_attendance_records";
+    
+    // === Mark Attendance for 1 Person ===
+    function markAttendance(name, service, date) {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+    
+      // check if this member already marked for this date + service
+      const existing = data.find(r => r.name === name && r.date === date && r.service === service);
+      if (existing) {
+        alert(name + " has already marked attendance for this service.");
+        return;
+      }
+    
+      // add new record
+      data.push({
+        name,
+        service,
+        date,
+        markedAt: new Date().toISOString()
+      });
+    
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert("Attendance marked for " + name);
+      loadAttendanceRecords();
+    }
+    
+    // === Render Members Table with Mark Buttons ===
+    function renderRows() {
+      tbody.innerHTML = '';
+      NAMES.forEach((name, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${name}</td>
+          <td><button class="btn" data-mark="${name}">Mark Present</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    
+      // attach event listeners
+      tbody.querySelectorAll("[data-mark]").forEach(btn => {
+        btn.addEventListener("click", e => {
+          const name = e.target.dataset.mark;
+          const dateStr = dateInput.value;
+          const service = serviceSel.value;
+          markAttendance(name, service, dateStr);
+        });
+      });
+    }
+    
+    // === Load Attendance Records ===
+    function loadAttendanceRecords() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const data = raw ? JSON.parse(raw) : [];
+    
+      // sort latest first
+      data.sort((a,b) => new Date(b.markedAt) - new Date(a.markedAt));
+    
+      recordsBody.innerHTML = '';
+      data.forEach((rec, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td>${rec.name}</td>
+          <td>${rec.service}</td>
+          <td>${rec.date}</td>
+          <td>${new Date(rec.markedAt).toLocaleTimeString()}</td>
+        `;
+        recordsBody.appendChild(tr);
+      });
+    }
+    
+    // === Export CSV ===
+    function exportCSV() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) { alert("No records to export"); return; }
+      const data = JSON.parse(raw);
+    
+      const rows = [["Name","Service","Date","Marked At"]];
+      data.forEach(r => {
+        rows.push([r.name, r.service, r.date, new Date(r.markedAt).toLocaleString()]);
+      });
+    
+      const csv = rows.map(r=>r.join(",")).join("\n");
+      const blob = new Blob([csv], {type:"text/csv"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "attendance_records.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  // === Monday Prayer Attendance with Phone + SIM ===
+const PRAYER_NAMES = [
+  "Abigail Thomas","Peter Obi","Sarah James","Caleb Andrew","Naomi Grace",
+  "Joshua Daniel","Miriam Paul","Elijah Chukwu","Rebecca Moses","John David"
+];
+
+// DOM Elements
+const prayerBody = document.getElementById('prayerBody');
+const prayerRecordsBody = document.getElementById('prayerRecordsBody');
+const clearPrayerBtn = document.getElementById('clearPrayerBtn');
+const exportPrayerBtn = document.getElementById('exportPrayerBtn');
+
+const pTotal = document.getElementById('pTotal');
+const pPresent = document.getElementById('pPresent');
+const pAbsent = document.getElementById('pAbsent');
+const pPct = document.getElementById('pPct');
+
+const PRAYER_STORAGE_KEY = "fg_prayer_records";
+
+// === Mark Attendance for 1 Person ===
+function markPrayerAttendance(name) {
+  const phoneInput = document.querySelector(`[data-phone="${name}"]`);
+  const simInput = document.querySelector(`[data-sim="${name}"]`);
+
+  const phone = phoneInput.value.trim();
+  const sim = simInput.value;
+
+  if (!phone) {
+    alert("Please enter phone number for " + name);
+    return;
+  }
+  if (!sim) {
+    alert("Please select SIM provider for " + name);
+    return;
+  }
+
+  const raw = localStorage.getItem(PRAYER_STORAGE_KEY);
+  const data = raw ? JSON.parse(raw) : [];
+
+  const today = new Date().toISOString().split("T")[0];
+
+  // check if this person already marked today
+  const existing = data.find(r => r.name === name && r.date === today);
+  if (existing) {
+    alert(name + " has already marked attendance for today.");
+    return;
+  }
+
+  // add new record
+  data.push({
+    name,
+    phone,
+    sim,
+    date: today,
+    markedAt: new Date().toISOString()
+  });
+
+  localStorage.setItem(PRAYER_STORAGE_KEY, JSON.stringify(data));
+  alert("Attendance marked for " + name);
+  loadPrayerRecords();
+  updatePrayerKpis();
+}
+
+// === Render Members Table with Mark Buttons, Phone & SIM ===
+function renderPrayerRows() {
+  prayerBody.innerHTML = '';
+  PRAYER_NAMES.forEach((name, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td>${name}</td>
+      <td><input type="text" class="input" placeholder="Phone" data-phone="${name}"></td>
+      <td>
+        <select class="input" data-sim="${name}">
+          <option value="">Select SIM</option>
+          <option value="MTN">MTN</option>
+          <option value="Airtel">Airtel</option>
+          <option value="Glo">Glo</option>
+          <option value="9mobile">9mobile</option>
+        </select>
+      </td>
+      <td><button class="btn" data-prayer="${name}">Mark Present</button></td>
+    `;
+    prayerBody.appendChild(tr);
+  });
+
+  // attach listeners
+  prayerBody.querySelectorAll("[data-prayer]").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const name = e.target.dataset.prayer;
+      markPrayerAttendance(name);
+    });
+  });
+}
+
+// === Load Prayer Records ===
+function loadPrayerRecords() {
+  const raw = localStorage.getItem(PRAYER_STORAGE_KEY);
+  const data = raw ? JSON.parse(raw) : [];
+
+  data.sort((a,b) => new Date(b.markedAt) - new Date(a.markedAt));
+
+  prayerRecordsBody.innerHTML = '';
+  data.forEach((rec, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td>${rec.name}</td>
+      <td>${rec.phone}</td>
+      <td>${rec.sim}</td>
+      <td>${rec.date}</td>
+      <td>${new Date(rec.markedAt).toLocaleTimeString()}</td>
+    `;
+    prayerRecordsBody.appendChild(tr);
+  });
+}
+
+// === KPIs ===
+function updatePrayerKpis() {
+  const raw = localStorage.getItem(PRAYER_STORAGE_KEY);
+  const data = raw ? JSON.parse(raw) : [];
+
+  const today = new Date().toISOString().split("T")[0];
+  const todayRecords = data.filter(r => r.date === today);
+
+  const total = PRAYER_NAMES.length;
+  const present = todayRecords.length;
+  const absent = total - present;
+  const pct = total ? Math.round((present / total) * 100) : 0;
+
+  pTotal.textContent = total;
+  pPresent.textContent = present;
+  pAbsent.textContent = absent;
+  pPct.textContent = pct + "%";
+}
+
+// === Clear Prayer Records ===
+function clearPrayerInputs() {
+  localStorage.removeItem(PRAYER_STORAGE_KEY);
+  renderPrayerRows();
+  prayerRecordsBody.innerHTML = '';
+  updatePrayerKpis();
+}
+
+// === Export Prayer CSV ===
+function exportPrayerCSV() {
+  const raw = localStorage.getItem(PRAYER_STORAGE_KEY);
+  if (!raw) { alert("No records to export"); return; }
+  const data = JSON.parse(raw);
+
+  const rows = [["Name","Phone","SIM","Date","Marked At"]];
+  data.forEach(r => {
+    rows.push([r.name, r.phone, r.sim, r.date, new Date(r.markedAt).toLocaleString()]);
+  });
+
+  const csv = rows.map(r=>r.join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "prayer_attendance.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+// === Events ===
+clearPrayerBtn.addEventListener('click', clearPrayerInputs);
+exportPrayerBtn.addEventListener('click', exportPrayerCSV);
+
+// === Init ===
+renderPrayerRows();
+loadPrayerRecords();
+updatePrayerKpis();
+
+
+// === Events ===
+clearPrayerBtn.addEventListener('click', clearPrayerInputs);
+exportPrayerBtn.addEventListener('click', exportPrayerCSV);
+
+// === Init ===
+renderPrayerRows();
+loadPrayerRecords();
+updatePrayerKpis();
+
+    
+    // === Init ===
+    document.getElementById("year").textContent = new Date().getFullYear();
+    exportBtn.addEventListener("click", exportCSV);
+    
+    renderRows();
+    loadAttendanceRecords();
+    </script>
+    
+</body>
+</html>
