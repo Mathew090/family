@@ -6,9 +6,10 @@
   <meta name="description" content="Family of Grace Bible Quiz - Professional assessment platform for the Book of Ruth">
   <meta name="author" content="Family of Grace">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1e40af">
   <title>Family of Grace Bible Quiz | Book of Ruth Assessment</title>
   <link rel="icon" type="image/x-icon" href="./photo_2025-09-03_01-35-31-removebg-preview.png">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
+  <link rel="stylesheet" href="style.css">
   
   <style>
     /* ========== CSS VARIABLES & RESET ========== */
@@ -143,6 +144,74 @@
       color: var(--primary);
     }
 
+    /* ========== HAMBURGER MENU ========== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      gap: 6px;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(10px, 10px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(8px, -8px);
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .navbar-nav {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        gap: 1rem;
+        padding: 2rem;
+        transition: left 0.3s ease;
+        z-index: 999;
+        border-top: 1px solid var(--border);
+        overflow-y: auto;
+      }
+
+      .navbar-nav.active {
+        left: 0;
+      }
+
+      .navbar-nav a {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+      }
+
+      .navbar-nav a:hover {
+        background-color: var(--bg-secondary);
+      }
+    }
+
     /* ========== MAIN SECTIONS ========== */
     main {
       padding: 2rem 0;
@@ -188,20 +257,9 @@
       color: white;
     }
 
-    .badge-secondary {
-      background-color: var(--secondary);
-      color: white;
-    }
-
-    .badge-success {
-      background-color: var(--success);
-      color: white;
-    }
-
-    .badge-danger {
-      background-color: var(--danger);
-      color: white;
-    }
+    .badge-secondary { background-color: var(--secondary); color: white; }
+    .badge-success { background-color: var(--success); color: white; }
+    .badge-danger { background-color: var(--danger); color: white; }
 
     .label-text {
       font-size: 0.875rem;
@@ -226,9 +284,7 @@
       border-color: var(--primary-light);
     }
 
-    .card-compact {
-      padding: 1.5rem;
-    }
+    .card-compact { padding: 1.5rem; }
 
     /* ========== MODALS ========== */
     .modal-overlay {
@@ -328,9 +384,7 @@
       display: none;
     }
 
-    .form-error.show {
-      display: block;
-    }
+    .form-error.show { display: block; }
 
     /* ========== BUTTONS ========== */
     .btn {
@@ -350,91 +404,27 @@
       white-space: nowrap;
     }
 
-    .btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .btn:active:not(:disabled) {
-      transform: translateY(0);
-    }
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-primary:hover:not(:disabled) { background-color: var(--primary-dark); }
+    .btn-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-secondary:hover:not(:disabled) { background-color: var(--border); }
+    .btn-success { background-color: var(--success); color: white; }
+    .btn-success:hover:not(:disabled) { background-color: #229954; }
+    .btn-danger { background-color: var(--danger); color: white; }
+    .btn-danger:hover:not(:disabled) { background-color: #c0392b; }
+    .btn-warning { background-color: var(--warning); color: white; }
+    .btn-warning:hover:not(:disabled) { background-color: #e08a0e; }
 
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .btn-lg { padding: 1rem 2rem; font-size: 1rem; }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+    .btn-block { width: 100%; }
 
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background-color: var(--primary-dark);
-    }
-
-    .btn-secondary {
-      background-color: var(--bg-tertiary);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background-color: var(--border);
-    }
-
-    .btn-success {
-      background-color: var(--success);
-      color: white;
-    }
-
-    .btn-success:hover:not(:disabled) {
-      background-color: #229954;
-    }
-
-    .btn-danger {
-      background-color: var(--danger);
-      color: white;
-    }
-
-    .btn-danger:hover:not(:disabled) {
-      background-color: #c0392b;
-    }
-
-    .btn-warning {
-      background-color: var(--warning);
-      color: white;
-    }
-
-    .btn-warning:hover:not(:disabled) {
-      background-color: #e08a0e;
-    }
-
-    .btn-lg {
-      padding: 1rem 2rem;
-      font-size: 1rem;
-    }
-
-    .btn-sm {
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-    }
-
-    .btn-block {
-      width: 100%;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-group-vertical {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-group-vertical { display: flex; flex-direction: column; gap: 1rem; }
 
     /* ========== QUIZ INTERFACE ========== */
     .quiz-header {
@@ -445,14 +435,8 @@
       margin-bottom: 2rem;
     }
 
-    .quiz-header h2 {
-      margin-bottom: 0.5rem;
-      color: white;
-    }
-
-    .quiz-header .subtitle {
-      color: rgba(255, 255, 255, 0.9);
-    }
+    .quiz-header h2 { margin-bottom: 0.5rem; color: white; }
+    .quiz-header .subtitle { color: rgba(255, 255, 255, 0.9); }
 
     .quiz-stats {
       display: grid;
@@ -470,42 +454,15 @@
       transition: all var(--transition);
     }
 
-    .stat-box:hover {
-      border-color: var(--primary);
-      box-shadow: var(--shadow-md);
-    }
-
-    .stat-box .stat-label {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-box .stat-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .stat-box.warning .stat-value {
-      color: var(--warning);
-    }
-
-    .stat-box.danger .stat-value {
-      color: var(--danger);
-    }
-
-    .stat-box.success .stat-value {
-      color: var(--success);
-    }
+    .stat-box:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+    .stat-box .stat-label { font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .stat-box .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+    .stat-box.warning .stat-value { color: var(--warning); }
+    .stat-box.danger .stat-value { color: var(--danger); }
+    .stat-box.success .stat-value { color: var(--success); }
 
     /* ========== PROGRESS BAR ========== */
-    .progress-container {
-      margin-bottom: 2rem;
-    }
+    .progress-container { margin-bottom: 2rem; }
 
     .progress-bar {
       width: 100%;
@@ -525,11 +482,7 @@
     }
 
     /* ========== QUIZ QUESTIONS ========== */
-    .question-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    .question-container { display: flex; flex-direction: column; gap: 1.5rem; }
 
     .question-card {
       background: var(--bg-primary);
@@ -539,38 +492,12 @@
       transition: all var(--transition);
     }
 
-    .question-card:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1);
-    }
+    .question-card:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1); }
+    .question-card.answered { border-color: var(--primary-light); background: linear-gradient(135deg, rgba(91, 141, 239, 0.02), transparent); }
 
-    .question-card.answered {
-      border-color: var(--primary-light);
-      background: linear-gradient(135deg, rgba(91, 141, 239, 0.02), transparent);
-    }
-
-    .question-number {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.75rem;
-    }
-
-    .question-text {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 1.25rem;
-      line-height: 1.5;
-    }
-
-    .question-options {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    .question-number { font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem; }
+    .question-text { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.25rem; line-height: 1.5; }
+    .question-options { display: flex; flex-direction: column; gap: 0.75rem; }
 
     .option-label {
       display: flex;
@@ -584,45 +511,14 @@
       background: var(--bg-secondary);
     }
 
-    .option-label:hover {
-      background: var(--bg-tertiary);
-      border-color: var(--primary-light);
-    }
+    .option-label:hover { background: var(--bg-tertiary); border-color: var(--primary-light); }
+    .option-label input[type="radio"] { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--primary); }
+    .option-text { flex: 1; color: var(--text-primary); font-weight: 500; }
 
-    .option-label input[type="radio"] {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      margin-top: 2px;
-      cursor: pointer;
-      accent-color: var(--primary);
-    }
-
-    .option-text {
-      flex: 1;
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    .option-label.correct {
-      background: rgba(39, 174, 96, 0.1);
-      border-color: var(--success);
-    }
-
-    .option-label.correct .option-text {
-      color: var(--success);
-      font-weight: 600;
-    }
-
-    .option-label.incorrect {
-      background: rgba(231, 76, 60, 0.1);
-      border-color: var(--danger);
-    }
-
-    .option-label.incorrect .option-text {
-      color: var(--danger);
-      font-weight: 600;
-    }
+    .option-label.correct { background: rgba(39, 174, 96, 0.1); border-color: var(--success); }
+    .option-label.correct .option-text { color: var(--success); font-weight: 600; }
+    .option-label.incorrect { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); }
+    .option-label.incorrect .option-text { color: var(--danger); font-weight: 600; }
 
     /* ========== ALERTS & MESSAGES ========== */
     .alert {
@@ -633,47 +529,16 @@
       animation: slideUp 0.3s ease-out;
     }
 
-    .alert.show {
-      display: block;
-    }
-
-    .alert-success {
-      background: rgba(39, 174, 96, 0.1);
-      border-left-color: var(--success);
-      color: #229954;
-    }
-
-    .alert-info {
-      background: rgba(52, 152, 219, 0.1);
-      border-left-color: var(--info);
-      color: #2874a6;
-    }
-
-    .alert-warning {
-      background: rgba(245, 158, 11, 0.1);
-      border-left-color: var(--warning);
-      color: #b8860b;
-    }
-
-    .alert-danger {
-      background: rgba(231, 76, 60, 0.1);
-      border-left-color: var(--danger);
-      color: #c0392b;
-    }
-
-    .alert-title {
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
+    .alert.show { display: block; }
+    .alert-success { background: rgba(39, 174, 96, 0.1); border-left-color: var(--success); color: #229954; }
+    .alert-info { background: rgba(52, 152, 219, 0.1); border-left-color: var(--info); color: #2874a6; }
+    .alert-warning { background: rgba(245, 158, 11, 0.1); border-left-color: var(--warning); color: #b8860b; }
+    .alert-danger { background: rgba(231, 76, 60, 0.1); border-left-color: var(--danger); color: #c0392b; }
+    .alert-title { font-weight: 700; margin-bottom: 0.25rem; }
 
     /* ========== LEADERBOARD ========== */
-    .leaderboard-wrapper {
-      margin-top: 2rem;
-    }
-
-    .leaderboard-header {
-      margin-bottom: 1.5rem;
-    }
+    .leaderboard-wrapper { margin-top: 2rem; }
+    .leaderboard-header { margin-bottom: 1.5rem; }
 
     .leaderboard-table {
       width: 100%;
@@ -684,92 +549,23 @@
       overflow: hidden;
     }
 
-    .leaderboard-table thead {
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-    }
+    .leaderboard-table thead { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; }
+    .leaderboard-table th { padding: 1.25rem; text-align: left; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .leaderboard-table td { padding: 1.25rem; border-top: 1px solid var(--border); color: var(--text-primary); }
+    .leaderboard-table tbody tr:hover { background: var(--bg-secondary); }
+    .leaderboard-table tbody tr:nth-child(even) { background: var(--bg-secondary); }
 
-    .leaderboard-table th {
-      padding: 1.25rem;
-      text-align: left;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; font-weight: 700; color: white; font-size: 1rem; }
+    .rank-badge-1 { background: linear-gradient(135deg, #f39c12, #e67e22); box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3); }
+    .rank-badge-2 { background: linear-gradient(135deg, #bdc3c7, #95a5a6); box-shadow: 0 2px 8px rgba(189, 195, 199, 0.3); }
+    .rank-badge-3 { background: linear-gradient(135deg, #d4663b, #a0411f); box-shadow: 0 2px 8px rgba(212, 102, 59, 0.3); }
+    .rank-badge-other { background: var(--text-secondary); }
 
-    .leaderboard-table td {
-      padding: 1.25rem;
-      border-top: 1px solid var(--border);
-      color: var(--text-primary);
-    }
-
-    .leaderboard-table tbody tr:hover {
-      background: var(--bg-secondary);
-    }
-
-    .leaderboard-table tbody tr:nth-child(even) {
-      background: var(--bg-secondary);
-    }
-
-    .rank-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-weight: 700;
-      color: white;
-      font-size: 1rem;
-    }
-
-    .rank-badge-1 {
-      background: linear-gradient(135deg, #f39c12, #e67e22);
-      box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
-    }
-
-    .rank-badge-2 {
-      background: linear-gradient(135deg, #bdc3c7, #95a5a6);
-      box-shadow: 0 2px 8px rgba(189, 195, 199, 0.3);
-    }
-
-    .rank-badge-3 {
-      background: linear-gradient(135deg, #d4663b, #a0411f);
-      box-shadow: 0 2px 8px rgba(212, 102, 59, 0.3);
-    }
-
-    .rank-badge-other {
-      background: var(--text-secondary);
-    }
-
-    .score-badge {
-      display: inline-block;
-      padding: 0.5rem 0.75rem;
-      border-radius: var(--radius-md);
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .score-badge-perfect {
-      background: rgba(39, 174, 96, 0.2);
-      color: var(--success);
-    }
-
-    .score-badge-good {
-      background: rgba(52, 152, 219, 0.2);
-      color: var(--info);
-    }
-
-    .score-badge-average {
-      background: rgba(245, 158, 11, 0.2);
-      color: var(--warning);
-    }
-
-    .score-badge-low {
-      background: rgba(231, 76, 60, 0.2);
-      color: var(--danger);
-    }
+    .score-badge { display: inline-block; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem; }
+    .score-badge-perfect { background: rgba(39, 174, 96, 0.2); color: var(--success); }
+    .score-badge-good { background: rgba(52, 152, 219, 0.2); color: var(--info); }
+    .score-badge-average { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .score-badge-low { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
 
     /* ========== FOOTER ========== */
     footer {
@@ -780,212 +576,59 @@
       border-top: 1px solid var(--border);
     }
 
-    footer .footer-inner {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    footer h3 {
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-
-    footer a {
-      color: rgba(255, 255, 255, 0.9);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-
-    footer a:hover {
-      color: white;
-    }
-
-    footer ul {
-      list-style: none;
-    }
-
-    footer li {
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      padding-top: 1.5rem;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.8);
-    }
+    footer .footer-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+    footer h3 { font-size: 1.1rem; margin-bottom: 1rem; font-weight: 700; }
+    footer a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color var(--transition); }
+    footer a:hover { color: white; }
+    footer ul { list-style: none; }
+    footer li { margin-bottom: 0.75rem; }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 1.5rem; text-align: center; color: rgba(255, 255, 255, 0.8); }
 
     /* ========== ANIMATIONS ========== */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
 
     /* ========== RESPONSIVE DESIGN ========== */
     @media (max-width: 768px) {
-      section > h1 {
-        font-size: 1.75rem;
-      }
-
-      section > h2 {
-        font-size: 1.5rem;
-      }
-
-      .modal-content {
-        padding: 2rem;
-        margin: 1rem;
-      }
-
-      .btn-group {
-        flex-direction: column;
-      }
-
-      .quiz-stats {
-        grid-template-columns: 1fr;
-      }
-
-      .stat-box .stat-value {
-        font-size: 2rem;
-      }
-
-      .leaderboard-table {
-        font-size: 0.875rem;
-      }
-
-      .leaderboard-table th,
-      .leaderboard-table td {
-        padding: 0.75rem;
-      }
-
-      .navbar-nav {
-        gap: 1rem;
-      }
-
-      .navbar-nav a {
-        padding: 0.5rem;
-      }
-
-      .card {
-        padding: 1.25rem;
-      }
-
-      .question-card {
-        padding: 1.25rem;
-      }
+      section > h1 { font-size: 1.75rem; }
+      section > h2 { font-size: 1.5rem; }
+      .modal-content { padding: 2rem; margin: 1rem; }
+      .btn-group { flex-direction: column; }
+      .quiz-stats { grid-template-columns: 1fr; }
+      .stat-box .stat-value { font-size: 2rem; }
+      .leaderboard-table { font-size: 0.875rem; }
+      .leaderboard-table th, .leaderboard-table td { padding: 0.75rem; }
+      .navbar-nav { gap: 1rem; }
+      .navbar-nav a { padding: 0.5rem; }
+      .card { padding: 1.25rem; }
+      .question-card { padding: 1.25rem; }
     }
 
     @media (max-width: 480px) {
-      body {
-        font-size: 14px;
-      }
-
-      .modal-content {
-        padding: 1.5rem;
-        margin: 1rem;
-      }
-
-      .navbar-brand {
-        font-size: 1rem;
-      }
-
-      .navbar-brand-logo {
-        width: 40px;
-        height: 40px;
-      }
-
-      section > h1 {
-        font-size: 1.5rem;
-      }
-
-      section > h2 {
-        font-size: 1.25rem;
-      }
-
-      .stat-box .stat-value {
-        font-size: 1.5rem;
-      }
-
-      .btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-      }
-
-      .question-card {
-        padding: 1rem;
-      }
-
-      .leaderboard-table th,
-      .leaderboard-table td {
-        padding: 0.5rem;
-        font-size: 0.75rem;
-      }
-
-      .rank-badge {
-        width: 32px;
-        height: 32px;
-        font-size: 0.875rem;
-      }
+      body { font-size: 14px; }
+      .modal-content { padding: 1.5rem; margin: 1rem; }
+      .navbar-brand { font-size: 1rem; }
+      .navbar-brand-logo { width: 40px; height: 40px; }
+      section > h1 { font-size: 1.5rem; }
+      section > h2 { font-size: 1.25rem; }
+      .stat-box .stat-value { font-size: 1.5rem; }
+      .btn { padding: 0.75rem 1rem; font-size: 0.875rem; }
+      .question-card { padding: 1rem; }
+      .leaderboard-table th, .leaderboard-table td { padding: 0.5rem; font-size: 0.75rem; }
+      .rank-badge { width: 32px; height: 32px; font-size: 0.875rem; }
     }
 
     /* ========== PRINT STYLES ========== */
     @media print {
-      * {
-        box-shadow: none !important;
-      }
-
-      body {
-        background: white;
-      }
-
-      header,
-      footer {
-        display: none;
-      }
-
-      .btn-group,
-      .modal-overlay {
-        display: none;
-      }
-
-      .question-card,
-      .card {
-        page-break-inside: avoid;
-        border: 1px solid #ccc;
-        box-shadow: none !important;
-      }
-
-      @page {
-        margin: 1cm;
-      }
+      * { box-shadow: none !important; }
+      body { background: white; }
+      header, footer { display: none; }
+      .btn-group, .modal-overlay { display: none; }
+      .question-card, .card { page-break-inside: avoid; border: 1px solid #ccc; box-shadow: none !important; }
+      @page { margin: 1cm; }
     }
 
     /* ========== ACCESSIBILITY ========== */
@@ -1001,19 +644,8 @@
       border-width: 0;
     }
 
-    *:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-
-    button:focus,
-    a:focus,
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
+    *:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+    button:focus, a:focus, input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
   </style>
 </head>
 <body>
@@ -1027,10 +659,15 @@
           </div>
           <span>Family of Grace</span>
         </a>
-        <nav class="navbar-nav" role="navigation" aria-label="Main navigation">
+        <nav class="navbar-nav" id="navLinks" role="navigation" aria-label="Main navigation">
           <a href="index.html" title="Go to home page">Home</a>
           <a href="#leaderboard" title="View quiz leaderboard">Leaderboard</a>
         </nav>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </header>
@@ -1046,41 +683,19 @@
       <form id="loginForm" method="POST" novalidate>
         <div class="form-group">
           <label for="playerName">Full Name <span style="color: var(--danger);">*</span></label>
-          <input 
-            type="text" 
-            id="playerName" 
-            placeholder="John Doe" 
-            autocomplete="name"
-            required
-            aria-required="true"
-          >
+          <input type="text" id="playerName" placeholder="John Doe" autocomplete="name" required aria-required="true">
           <span class="form-error" id="nameError"></span>
         </div>
 
         <div class="form-group">
           <label for="playerCode">Access Code <span style="color: var(--danger);">*</span></label>
-          <input 
-            type="text" 
-            id="playerCode" 
-            placeholder="e.g., FG171" 
-            autocomplete="off"
-            required
-            aria-required="true"
-            style="text-transform: uppercase;"
-          >
+          <input type="text" id="playerCode" placeholder="e.g., FG171" autocomplete="off" required aria-required="true" style="text-transform: uppercase;">
           <span class="form-error" id="codeError"></span>
         </div>
 
         <div class="form-group">
           <label for="playerEmail">Email Address <span style="color: var(--danger);">*</span></label>
-          <input 
-            type="email" 
-            id="playerEmail" 
-            placeholder="john@example.com" 
-            autocomplete="email"
-            required
-            aria-required="true"
-          >
+          <input type="email" id="playerEmail" placeholder="john@example.com" autocomplete="email" required aria-required="true">
           <span class="form-error" id="emailError"></span>
         </div>
 
@@ -1089,7 +704,7 @@
         </button>
 
         <div class="form-notice">
-          📋 <strong>Quiz Details:</strong> 21 questions • 15 minutes • Book of Ruth 
+          📋 <strong>Quiz Details:</strong> 21 questions • 15 minutes • Book of Ruth
         </div>
       </form>
     </div>
@@ -1119,10 +734,6 @@
             <div class="stat-label">📝 Answered</div>
             <div class="stat-value" id="answeredCount" aria-live="polite">0/21</div>
           </div>
-          <!-- <div class="stat-box">
-            <div class="stat-label">⭐ Current Score</div>
-            <div class="stat-value" id="currentScore" aria-live="polite">0%</div>
-          </div> -->
         </div>
       </section>
 
@@ -1141,7 +752,32 @@
         <!-- RESULT MESSAGE -->
         <div class="alert" id="resultMessage" role="alert" aria-live="polite"></div>
 
-        <!-- QUIZ FORM -->
+        <!-- RESULTS SUMMARY (Hidden until submitted) -->
+        <div id="resultsSummary" style="display: none; margin-bottom: 2rem;">
+          <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(52, 152, 219, 0.1)); border-radius: var(--radius-lg); padding: 2rem; border-left: 4px solid var(--success);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">📊 Quiz Results Summary</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;">
+              <div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Your Score</div>
+                <div id="summaryScore" style="font-size: 2.5rem; font-weight: 700; color: var(--success);">0/21</div>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Percentage</div>
+                <div id="summaryPercentage" style="font-size: 2.5rem; font-weight: 700; color: var(--info);">0%</div>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Time Taken</div>
+                <div id="summaryTime" style="font-size: 2.5rem; font-weight: 700; color: var(--warning);">0:00</div>
+              </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+              <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0.5rem 0;">
+                <strong>📧 Email Status:</strong> <span id="emailStatus" style="color: var(--text-secondary);">Preparing to send results...</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
         <form id="quizForm" class="question-container" autocomplete="off" novalidate>
           <!-- Questions will be rendered here by JavaScript -->
         </form>
@@ -1208,48 +844,42 @@
       <div class="footer-inner">
         <div>
           <h3>About This Quiz</h3>
-          <p>The Family of Grace Bible Quiz is an assessment platform designed to test knowledge of the Book of Ruth in a professional academic setting.</p>
+          <p>The Family of Grace Bible Quiz is an assessment platform designed to test knowledge of the Book of Ruth in a professional academic setting. All results are securely stored and emailed to participants.</p>
         </div>
         <div>
           <h3>Quick Links</h3>
           <ul>
             <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
             <li><a href="#leaderboard">Leaderboard</a></li>
-            <li><a href="EMAILJS_SETUP_GUIDE.md">Setup Guide</a></li>
+            <li><a href="mailto:oyebodemathew555@gmail.com">Contact Support</a></li>
           </ul>
         </div>
         <div>
-          <h3>Resources</h3>
+          <h3>Quiz Information</h3>
           <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Support</a></li>
+            <li>📊 21 Multiple Choice Questions</li>
+            <li>⏱️ 15 Minutes Time Limit</li>
+            <li>📖 Book of Ruth Assessment</li>
+            <li>✉️ Email Results Delivery</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        © <span id="year"></span> Family of Grace. All rights reserved.
+        © <span id="year"></span> Family of Grace. All rights reserved. | Results sent to: <strong>oyebodemathew555@gmail.com</strong>
       </div>
     </div>
   </footer>
 
-  <!-- JAVASCRIPT -->
+  <!-- MAIN QUIZ JAVASCRIPT -->
   <script>
-    // Set current year
+    // ============================================================
+    // CONFIGURATION
+    // ============================================================
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ⚙️ EMAILJS CONFIGURATION
-    const EMAILJS_PUBLIC_KEY = "cWsZ9EVl7BcTcGNNP";
-    const EMAILJS_SERVICE_ID = "service_33oy39w";
-    const EMAILJS_TEMPLATE_ID = "template_y1ahe6k";
-
-    // Initialize EmailJS
-    setTimeout(() => {
-      if (typeof emailjs !== 'undefined') {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-        console.log('✅ EmailJS initialized successfully');
-      }
-    }, 100);
+    // Google Apps Script Web App URL
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_NNVl3oj2FcPS2BZUg5WzaGRLEwiQFO0kScOEflp3lQ4BfSrXeGQMDVHMppDpfFKq/exec";
 
     // Valid access codes
     const VALID_CODES = [
@@ -1285,7 +915,7 @@
     ];
 
     const TOTAL_QUESTIONS = 21;
-    const TOTAL_TIME = 900;
+    const TOTAL_TIME = 900; // 15 minutes in seconds
     const STORAGE_KEY = "fg_quiz_results";
 
     // Application state
@@ -1299,7 +929,9 @@
       quizStartTime: null
     };
 
-    // Utility functions
+    // ============================================================
+    // UTILITY FUNCTIONS
+    // ============================================================
     function shuffle(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1320,6 +952,42 @@
       return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
+    function escapeHtml(text) {
+      if (!text) return '';
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    function showNotification(message, type = 'info', duration = 3000) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+        max-width: 400px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        color: white;
+      `;
+      const bgColors = { success: '#27ae60', error: '#e74c3c', info: '#3498db', warning: '#f39c12' };
+      notification.style.backgroundColor = bgColors[type] || bgColors.info;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }, duration);
+    }
+
+    // ============================================================
+    // TIMER & STATS
+    // ============================================================
     function updateTimerDisplay() {
       const timeDisplay = document.getElementById('timeDisplay');
       const timerBox = document.getElementById('timerBox');
@@ -1337,28 +1005,46 @@
 
     function updateStats() {
       let answered = 0;
-      let correct = 0;
-
       state.pickedQuestions.forEach((q, idx) => {
-        const selected = state.selectedAnswers[idx];
-        if (selected !== undefined) {
-          answered++;
-          if (selected === q.a) correct++;
-        }
+        if (state.selectedAnswers[idx] !== undefined) answered++;
       });
-
       const answerEl = document.getElementById('answeredCount');
-      const scoreEl = document.getElementById('currentScore');
       if (answerEl) answerEl.textContent = `${answered}/${TOTAL_QUESTIONS}`;
-      if (scoreEl) scoreEl.textContent = `${Math.round((correct / TOTAL_QUESTIONS) * 100)}%`;
     }
 
+    function startTimer() {
+      state.timeRemaining = TOTAL_TIME;
+      state.quizStartTime = Date.now();
+      state.isSubmitted = false;
+      updateTimerDisplay();
+      clearInterval(state.timerInterval);
+
+      state.timerInterval = setInterval(() => {
+        state.timeRemaining--;
+        updateTimerDisplay();
+
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) {
+          const percentage = Math.max(0, (state.timeRemaining / TOTAL_TIME) * 100);
+          progressFill.style.width = `${percentage}%`;
+          progressFill.setAttribute('aria-valuenow', Math.round(percentage));
+        }
+
+        if (state.timeRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          submitQuiz(true);
+        }
+      }, 1000);
+    }
+
+    // ============================================================
+    // RENDER QUIZ
+    // ============================================================
     function renderQuiz() {
       state.pickedQuestions = pickRandomQuestions();
       state.selectedAnswers = {};
       const form = document.getElementById('quizForm');
       if (!form) return;
-
       form.innerHTML = '';
 
       state.pickedQuestions.forEach((question, qIdx) => {
@@ -1385,12 +1071,11 @@
         question.options.forEach((option, oIdx) => {
           const label = document.createElement('label');
           label.className = 'option-label';
-          const inputId = `q${qIdx}_opt${oIdx}`;
           const input = document.createElement('input');
           input.type = 'radio';
           input.name = `question_${qIdx}`;
           input.value = oIdx;
-          input.id = inputId;
+          input.id = `q${qIdx}_opt${oIdx}`;
 
           input.addEventListener('change', (e) => {
             state.selectedAnswers[qIdx] = parseInt(e.target.value);
@@ -1399,12 +1084,10 @@
           });
 
           label.appendChild(input);
-
           const optionText = document.createElement('span');
           optionText.className = 'option-text';
           optionText.textContent = option;
           label.appendChild(optionText);
-
           optionsContainer.appendChild(label);
         });
 
@@ -1415,32 +1098,9 @@
       updateStats();
     }
 
-    function startTimer() {
-      state.timeRemaining = TOTAL_TIME;
-      state.quizStartTime = Date.now();
-      state.isSubmitted = false;
-
-      updateTimerDisplay();
-
-      clearInterval(state.timerInterval);
-      state.timerInterval = setInterval(() => {
-        state.timeRemaining--;
-        updateTimerDisplay();
-
-        const progressFill = document.getElementById('progressFill');
-        if (progressFill) {
-          const percentage = Math.max(0, (state.timeRemaining / TOTAL_TIME) * 100);
-          progressFill.style.width = `${percentage}%`;
-          progressFill.setAttribute('aria-valuenow', Math.round(percentage));
-        }
-
-        if (state.timeRemaining <= 0) {
-          clearInterval(state.timerInterval);
-          submitQuiz(true);
-        }
-      }, 1000);
-    }
-
+    // ============================================================
+    // SUBMIT QUIZ
+    // ============================================================
     function submitQuiz(autoSubmit = false) {
       if (state.isSubmitted) return;
       state.isSubmitted = true;
@@ -1457,7 +1117,6 @@
         options.forEach((input) => {
           const label = input.parentElement;
           const optIdx = parseInt(input.value);
-
           label.classList.remove('correct', 'incorrect');
           if (optIdx === correct) {
             label.classList.add('correct');
@@ -1472,28 +1131,33 @@
       const timeUsed = Math.floor((Date.now() - state.quizStartTime) / 1000);
       const percentage = Math.round((score / TOTAL_QUESTIONS) * 100);
 
+      // Show results summary
+      document.getElementById('resultsSummary').style.display = 'block';
+      document.getElementById('summaryScore').textContent = `${score}/${TOTAL_QUESTIONS}`;
+      document.getElementById('summaryPercentage').textContent = `${percentage}%`;
+      document.getElementById('summaryTime').textContent = formatTime(timeUsed);
+      document.getElementById('emailStatus').textContent = '📧 Sending results...';
+      document.getElementById('emailStatus').style.color = 'var(--info)';
+
+      // Show result alert
       const resultMsg = document.getElementById('resultMessage');
       if (resultMsg) {
         const message = autoSubmit ? '⏱️ Time is up!' : '✅ Quiz submitted successfully!';
         const alertClass = autoSubmit ? 'alert-info' : 'alert-success';
         resultMsg.className = `alert show ${alertClass}`;
-        resultMsg.setAttribute('role', 'alert');
-
-        const titleEl = document.createElement('div');
-        titleEl.className = 'alert-title';
-        titleEl.textContent = message;
-
-        resultMsg.innerHTML = '';
-        resultMsg.appendChild(titleEl);
-
-        const contentEl = document.createElement('div');
-        contentEl.innerHTML = `You scored <strong>${score}/${TOTAL_QUESTIONS}</strong> (${percentage}%) in ${formatTime(timeUsed)}`;
-        resultMsg.appendChild(contentEl);
+        resultMsg.innerHTML = `
+          <div class="alert-title">${message}</div>
+          <div style="font-size: 0.95rem;">
+            Your Score: <strong>${score}/${TOTAL_QUESTIONS} (${percentage}%)</strong> | Time Used: <strong>${formatTime(timeUsed)}</strong>
+          </div>
+        `;
       }
 
+      // Disable submit button
       const submitBtn = document.getElementById('submitBtn');
       if (submitBtn) submitBtn.disabled = true;
 
+      // Save to localStorage
       const raw = localStorage.getItem(STORAGE_KEY);
       const data = raw ? JSON.parse(raw) : [];
       data.push({
@@ -1508,38 +1172,87 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
       updateLeaderboard();
-      sendResultsEmail(state.currentPlayer.name, state.currentPlayer.email, score, percentage, timeUsed);
+
+      // Send results to Google Sheets + email via Apps Script
+      sendResultsToSheet(
+        state.currentPlayer.name,
+        state.currentPlayer.email,
+        state.currentPlayer.code,
+        score,
+        percentage,
+        timeUsed
+      );
     }
 
-    function sendResultsEmail(name, email, score, percentage, timeUsed) {
-      if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY_HERE") {
-        console.info('ℹ️ EmailJS not configured yet. Results saved but email not sent.');
-        return;
-      }
+    // ============================================================
+    // SEND RESULTS TO GOOGLE APPS SCRIPT
+    // ============================================================
+    function sendResultsToSheet(name, email, code, score, percentage, timeUsed) {
+      const emailStatusEl = document.getElementById('emailStatus');
 
-      const templateParams = {
-        to_name: name,
-        to_email: email,
+      const payload = {
+        name: name,
+        email: email,
+        code: code,
         score: score,
+        total: TOTAL_QUESTIONS,
         percentage: percentage,
-        time_used: formatTime(timeUsed),
+        timeUsed: formatTime(timeUsed),
         date: new Date().toLocaleString()
       };
 
-      if (typeof emailjs === 'undefined') {
-        console.warn('⚠️ EmailJS library not loaded. Results saved but email not sent.');
-        return;
-      }
+      try {
+        // Hidden iframe approach — bypasses CORS entirely on GitHub Pages.
+        // A plain HTML form POST has no CORS restrictions; the browser fires and forgets.
+        const iframe = document.createElement('iframe');
+        iframe.name = 'hidden_iframe_' + Date.now();
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
 
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-        .then((response) => {
-          console.log('✅ Email sent successfully to ' + email);
-        })
-        .catch((error) => {
-          console.error('⚠️ Email failed to send:', error);
-        });
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = APPS_SCRIPT_URL;
+        form.target = iframe.name;
+        form.style.display = 'none';
+
+        // Send payload as a single hidden field; Apps Script reads e.parameter.data
+        const field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = 'data';
+        field.value = JSON.stringify(payload);
+        form.appendChild(field);
+
+        document.body.appendChild(form);
+
+        // onload fires once the Apps Script responds (even though we can't read it due to CORS)
+        iframe.onload = () => {
+          if (emailStatusEl) {
+            emailStatusEl.textContent = '✅ Results saved & email sent!';
+            emailStatusEl.style.color = 'var(--success)';
+          }
+          showNotification('✅ Results submitted successfully!', 'success', 5000);
+          // Clean up DOM after a short delay
+          setTimeout(() => {
+            if (form.parentNode) form.parentNode.removeChild(form);
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 3000);
+        };
+
+        form.submit();
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        if (emailStatusEl) {
+          emailStatusEl.textContent = '⚠️ Could not reach server — results saved locally.';
+          emailStatusEl.style.color = 'var(--warning)';
+        }
+        showNotification('⚠️ Network error — results saved locally.', 'warning', 5000);
+      }
     }
 
+    // ============================================================
+    // LEADERBOARD
+    // ============================================================
     function updateLeaderboard() {
       const raw = localStorage.getItem(STORAGE_KEY);
       const data = raw ? JSON.parse(raw) : [];
@@ -1566,12 +1279,10 @@
         const rankCell = document.createElement('td');
         const rankSpan = document.createElement('span');
         rankSpan.className = 'rank-badge';
-
         if (idx === 0) rankSpan.classList.add('rank-badge-1');
         else if (idx === 1) rankSpan.classList.add('rank-badge-2');
         else if (idx === 2) rankSpan.classList.add('rank-badge-3');
         else rankSpan.classList.add('rank-badge-other');
-
         rankSpan.textContent = idx + 1;
         rankCell.appendChild(rankSpan);
         tr.appendChild(rankCell);
@@ -1583,17 +1294,10 @@
         const scoreCell = document.createElement('td');
         const scoreBadge = document.createElement('span');
         scoreBadge.className = 'score-badge';
-
-        if (rec.percentage === 100) {
-          scoreBadge.classList.add('score-badge-perfect');
-        } else if (rec.percentage >= 80) {
-          scoreBadge.classList.add('score-badge-good');
-        } else if (rec.percentage >= 60) {
-          scoreBadge.classList.add('score-badge-average');
-        } else {
-          scoreBadge.classList.add('score-badge-low');
-        }
-
+        if (rec.percentage === 100) scoreBadge.classList.add('score-badge-perfect');
+        else if (rec.percentage >= 80) scoreBadge.classList.add('score-badge-good');
+        else if (rec.percentage >= 60) scoreBadge.classList.add('score-badge-average');
+        else scoreBadge.classList.add('score-badge-low');
         scoreBadge.textContent = `${rec.score}/${TOTAL_QUESTIONS}`;
         scoreCell.appendChild(scoreBadge);
         tr.appendChild(scoreCell);
@@ -1616,10 +1320,13 @@
       if (countEl) countEl.textContent = data.length;
     }
 
+    // ============================================================
+    // EXPORT CSV
+    // ============================================================
     function exportCSV() {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        alert('No results to export');
+        alert('No results to export yet.');
         return;
       }
 
@@ -1629,12 +1336,13 @@
         return a.time - b.time;
       });
 
-      const rows = [['Rank', 'Name', 'Code', 'Score', 'Percentage', 'Time (s)', 'Date']];
+      const rows = [['Rank', 'Name', 'Code', 'Email', 'Score', 'Percentage', 'Time (s)', 'Date']];
       data.forEach((rec, idx) => {
         rows.push([
           idx + 1,
           rec.name,
           rec.code,
+          rec.email,
           `${rec.score}/${TOTAL_QUESTIONS}`,
           `${rec.percentage}%`,
           rec.time,
@@ -1646,34 +1354,19 @@
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `quiz_results_${new Date().getTime()}.csv`;
+      link.download = `fg_quiz_results_${new Date().getTime()}.csv`;
       link.click();
     }
 
-    function printResults() {
-      window.print();
-    }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return String(text).replace(/[&<>"']/g, m => map[m]);
-    }
-
+    // ============================================================
+    // FORM VALIDATION
+    // ============================================================
     function validateForm() {
       const nameInput = document.getElementById('playerName');
       const codeInput = document.getElementById('playerCode');
       const emailInput = document.getElementById('playerEmail');
-
       let isValid = true;
 
-      // Validate name
       const name = (nameInput.value || '').trim();
       if (!name) {
         nameInput.classList.add('error');
@@ -1685,7 +1378,6 @@
         document.getElementById('nameError').classList.remove('show');
       }
 
-      // Validate code
       const code = (codeInput.value || '').trim().toUpperCase();
       if (!code) {
         codeInput.classList.add('error');
@@ -1702,7 +1394,6 @@
         document.getElementById('codeError').classList.remove('show');
       }
 
-      // Validate email
       const email = (emailInput.value || '').trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email) {
@@ -1723,7 +1414,9 @@
       return isValid;
     }
 
-    // Event listeners
+    // ============================================================
+    // EVENT LISTENERS
+    // ============================================================
     document.addEventListener('DOMContentLoaded', () => {
       const loginForm = document.getElementById('loginForm');
       const startBtn = document.getElementById('startBtn');
@@ -1734,10 +1427,10 @@
       const playerCodeInput = document.getElementById('playerCode');
       const playerEmailInput = document.getElementById('playerEmail');
 
+      // Start quiz on form submit
       if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
           e.preventDefault();
-
           if (!validateForm()) return;
 
           const name = playerNameInput.value.trim();
@@ -1767,25 +1460,56 @@
         });
       }
 
-      if (exportBtn) {
-        exportBtn.addEventListener('click', exportCSV);
-      }
+      if (exportBtn) exportBtn.addEventListener('click', exportCSV);
+      if (printBtn) printBtn.addEventListener('click', () => window.print());
 
-      if (printBtn) {
-        printBtn.addEventListener('click', printResults);
-      }
-
+      // Clear error styling on input
       [playerNameInput, playerCodeInput, playerEmailInput].forEach(input => {
         if (input) {
           input.addEventListener('input', () => {
             input.classList.remove('error');
-            const errorEl = document.getElementById(input.id + 'Error') || document.querySelector(`#${input.id}Error`);
+            const errorId = input.id.replace('player', '').toLowerCase() + 'Error';
+            const errorEl = document.getElementById(errorId);
             if (errorEl) errorEl.classList.remove('show');
           });
         }
       });
 
+      // Force uppercase for access code as user types
+      if (playerCodeInput) {
+        playerCodeInput.addEventListener('input', () => {
+          const pos = playerCodeInput.selectionStart;
+          playerCodeInput.value = playerCodeInput.value.toUpperCase();
+          playerCodeInput.setSelectionRange(pos, pos);
+        });
+      }
+
       updateLeaderboard();
+
+      // Hamburger Menu
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('active');
+          navLinks.classList.toggle('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+          });
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!event.target.closest('header')) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+          }
+        });
+      }
     });
   </script>
 </body>
