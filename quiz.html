@@ -871,15 +871,65 @@
     </div>
   </footer>
 
+  <!-- FIREBASE SCRIPTS (COMPAT VERSION) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- EMAILJS LIBRARY -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/index.min.js"></script>
+
   <!-- MAIN QUIZ JAVASCRIPT -->
   <script>
+    // ============================================================
+    // FIREBASE & EMAIL INITIALIZATION
+    // ============================================================
+    let db;
+    let emailjsReady = false;
+    
+    // Initialize on DOM Ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize EmailJS
+      try {
+        if (typeof emailjs !== 'undefined') {
+          emailjs.init("cWsZ9EVl7BcTcGNNP");
+          emailjsReady = true;
+          console.log("✅ EmailJS initialized successfully");
+        } else {
+          console.warn("⚠️ EmailJS library not available - email features may be limited");
+        }
+      } catch (err) {
+        console.error("❌ EmailJS initialization error:", err);
+      }
+      
+      // Initialize Firebase
+      if (typeof firebase !== 'undefined') {
+        try {
+          if (!firebase.apps.length) {
+            const firebaseConfig = {
+              apiKey: "AIzaSyDKl-y2Zw0ePmIE_Cos30GuZJPlZhLKr7U",
+              authDomain: "family-ddc8d.firebaseapp.com",
+              databaseURL: "https://family-ddc8d-default-rtdb.firebaseio.com",
+              projectId: "family-ddc8d",
+              storageBucket: "family-ddc8d.firebasestorage.app",
+              messagingSenderId: "825701966546",
+              appId: "1:825701966546:web:6f35ac017ea303557a030b"
+            };
+            firebase.initializeApp(firebaseConfig);
+          }
+          db = firebase.firestore();
+          console.log("✅ Firebase initialized successfully");
+        } catch (err) {
+          console.error("❌ Firebase initialization error:", err);
+        }
+      } else {
+        console.warn("⚠️ Firebase library not loaded");
+      }
+    });
+
     // ============================================================
     // CONFIGURATION
     // ============================================================
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Google Apps Script Web App URL
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_NNVl3oj2FcPS2BZUg5WzaGRLEwiQFO0kScOEflp3lQ4BfSrXeGQMDVHMppDpfFKq/exec";
 
     // Valid access codes
     const VALID_CODES = [
@@ -1173,8 +1223,8 @@
 
       updateLeaderboard();
 
-      // Send results to Google Sheets + email via Apps Script
-      sendResultsToSheet(
+      // Send results via email and save to database
+      sendResults(
         state.currentPlayer.name,
         state.currentPlayer.email,
         state.currentPlayer.code,
@@ -1185,68 +1235,126 @@
     }
 
     // ============================================================
-    // SEND RESULTS TO GOOGLE APPS SCRIPT
+    // SEND RESULTS (EMAIL + DATABASE)
     // ============================================================
-    function sendResultsToSheet(name, email, code, score, percentage, timeUsed) {
+    async function sendResults(name, email, code, score, percentage, timeUsed) {
       const emailStatusEl = document.getElementById('emailStatus');
-
-      const payload = {
-        name: name,
-        email: email,
-        code: code,
-        score: score,
-        total: TOTAL_QUESTIONS,
-        percentage: percentage,
-        timeUsed: formatTime(timeUsed),
-        date: new Date().toLocaleString()
-      };
-
+      let emailSent = false;
+      let dbSaved = false;
+      
       try {
-        // Hidden iframe approach — bypasses CORS entirely on GitHub Pages.
-        // A plain HTML form POST has no CORS restrictions; the browser fires and forgets.
-        const iframe = document.createElement('iframe');
-        iframe.name = 'hidden_iframe_' + Date.now();
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = APPS_SCRIPT_URL;
-        form.target = iframe.name;
-        form.style.display = 'none';
-
-        // Send payload as a single hidden field; Apps Script reads e.parameter.data
-        const field = document.createElement('input');
-        field.type = 'hidden';
-        field.name = 'data';
-        field.value = JSON.stringify(payload);
-        form.appendChild(field);
-
-        document.body.appendChild(form);
-
-        // onload fires once the Apps Script responds (even though we can't read it due to CORS)
-        iframe.onload = () => {
+        // Step 1: Send email to participant (if EmailJS is available)
+        if (emailjsReady && typeof emailjs !== 'undefined') {
           if (emailStatusEl) {
-            emailStatusEl.textContent = '✅ Results saved & email sent!';
-            emailStatusEl.style.color = 'var(--success)';
+            emailStatusEl.textContent = '📧 Sending email to participant...';
+            emailStatusEl.style.color = 'var(--info)';
           }
-          showNotification('✅ Results submitted successfully!', 'success', 5000);
-          // Clean up DOM after a short delay
-          setTimeout(() => {
-            if (form.parentNode) form.parentNode.removeChild(form);
-            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
-          }, 3000);
-        };
-
-        form.submit();
-
-      } catch (err) {
-        console.error('Submission error:', err);
+          
+          try {
+            const participantEmailResult = await emailjs.send(
+              'service_33oy39w',
+              'template_y1ahe6k',
+              {
+                to_email: email,
+                to_name: name,
+                score: score,
+                total_questions: TOTAL_QUESTIONS,
+                percentage: percentage,
+                time_taken: formatTime(timeUsed),
+                date_submitted: new Date().toLocaleString(),
+                access_code: code,
+                message: `Congratulations on completing the Family of Grace Bible Quiz! Your results have been recorded and saved.`
+              }
+            );
+            
+            console.log("✅ Participant email sent:", participantEmailResult.status);
+            emailSent = true;
+            
+            // Step 2: Send notification to admin
+            try {
+              await emailjs.send(
+                'service_33oy39w',
+                'template_y1ahe6k',
+                {
+                  to_email: 'oyebodemathew555@gmail.com',
+                  to_name: 'Admin',
+                  score: score,
+                  total_questions: TOTAL_QUESTIONS,
+                  percentage: percentage,
+                  time_taken: formatTime(timeUsed),
+                  date_submitted: new Date().toLocaleString(),
+                  access_code: code,
+                  message: `New quiz submission: ${name} (${email}) scored ${score}/${TOTAL_QUESTIONS} (${percentage}%)`
+                }
+              );
+              console.log("✅ Admin notification sent");
+            } catch (adminErr) {
+              console.warn("⚠️ Admin email failed (non-critical):", adminErr);
+            }
+          } catch (emailErr) {
+            console.error("❌ Email sending error:", emailErr);
+            emailSent = false;
+          }
+        } else {
+          console.warn("⚠️ EmailJS not available - skipping email delivery");
+        }
+        
+        // Step 3: Save to Firebase
+        if (db && emailStatusEl) {
+          emailStatusEl.textContent = '💾 Saving to database...';
+          emailStatusEl.style.color = 'var(--info)';
+        }
+        
+        if (db) {
+          try {
+            const dbResult = await db.collection("quiz_results").add({
+              name: name,
+              email: email,
+              code: code,
+              score: score,
+              total: TOTAL_QUESTIONS,
+              percentage: percentage,
+              timeUsed: timeUsed,
+              date: new Date().toISOString(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("✅ Firebase save successful:", dbResult.id);
+            dbSaved = true;
+          } catch (fbErr) {
+            console.error("❌ Firebase save error:", fbErr);
+          }
+        } else {
+          console.warn("⚠️ Firebase not available - results saved locally only");
+        }
+        
+        // Step 4: Update status
         if (emailStatusEl) {
-          emailStatusEl.textContent = '⚠️ Could not reach server — results saved locally.';
+          if (emailSent) {
+            emailStatusEl.innerHTML = '✅ Email sent to ' + escapeHtml(email);
+            emailStatusEl.style.color = 'var(--success)';
+          } else if (dbSaved) {
+            emailStatusEl.innerHTML = '⚠️ Results saved (email service unavailable)';
+            emailStatusEl.style.color = 'var(--warning)';
+          } else {
+            emailStatusEl.textContent = '⚠️ Results saved locally';
+            emailStatusEl.style.color = 'var(--warning)';
+          }
+        }
+        
+        const message = emailSent ? '✅ Quiz submitted! Results emailed successfully.' : '✅ Quiz submitted! Results saved.';
+        showNotification(message, emailSent ? 'success' : 'info', 5000);
+        return emailSent || dbSaved;
+        
+      } catch (error) {
+        console.error("❌ Error sending results:", error);
+        
+        if (emailStatusEl) {
+          emailStatusEl.innerHTML = '⚠️ Error processing results - data saved locally. <br/><small>Contact support if issues persist.</small>';
           emailStatusEl.style.color = 'var(--warning)';
         }
-        showNotification('⚠️ Network error — results saved locally.', 'warning', 5000);
+        
+        showNotification('⚠️ Results saved locally', 'warning', 5000);
+        return false;
       }
     }
 
