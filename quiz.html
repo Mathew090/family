@@ -6,11 +6,12 @@
   <meta name="description" content="Family of Grace Bible Quiz - Professional assessment platform for the Book of Ruth">
   <meta name="author" content="Family of Grace">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#1e40af">
   <title>Family of Grace Bible Quiz | Book of Ruth Assessment</title>
   <link rel="icon" type="image/x-icon" href="./photo_2025-09-03_01-35-31-removebg-preview.png">
-  <link rel="stylesheet" href="style.css">
-  
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="supabase-config.js"></script>
+  <script defer src="quiz.js"></script>
+
   <style>
     /* ========== CSS VARIABLES & RESET ========== */
     :root {
@@ -144,74 +145,6 @@
       color: var(--primary);
     }
 
-    /* ========== HAMBURGER MENU ========== */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      gap: 6px;
-      z-index: 1001;
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: var(--primary);
-      border-radius: 2px;
-      transition: all var(--transition);
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(10px, 10px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(8px, -8px);
-    }
-
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-
-      .navbar-nav {
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        gap: 1rem;
-        padding: 2rem;
-        transition: left 0.3s ease;
-        z-index: 999;
-        border-top: 1px solid var(--border);
-        overflow-y: auto;
-      }
-
-      .navbar-nav.active {
-        left: 0;
-      }
-
-      .navbar-nav a {
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-      }
-
-      .navbar-nav a:hover {
-        background-color: var(--bg-secondary);
-      }
-    }
-
     /* ========== MAIN SECTIONS ========== */
     main {
       padding: 2rem 0;
@@ -257,9 +190,20 @@
       color: white;
     }
 
-    .badge-secondary { background-color: var(--secondary); color: white; }
-    .badge-success { background-color: var(--success); color: white; }
-    .badge-danger { background-color: var(--danger); color: white; }
+    .badge-secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .badge-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .badge-danger {
+      background-color: var(--danger);
+      color: white;
+    }
 
     .label-text {
       font-size: 0.875rem;
@@ -284,7 +228,9 @@
       border-color: var(--primary-light);
     }
 
-    .card-compact { padding: 1.5rem; }
+    .card-compact {
+      padding: 1.5rem;
+    }
 
     /* ========== MODALS ========== */
     .modal-overlay {
@@ -298,6 +244,8 @@
       animation: fadeIn 0.3s ease-out;
       backdrop-filter: blur(2px);
     }
+
+    .modal-overlay[hidden] { display: none; }
 
     .modal-content {
       background: var(--bg-primary);
@@ -384,7 +332,9 @@
       display: none;
     }
 
-    .form-error.show { display: block; }
+    .form-error.show {
+      display: block;
+    }
 
     /* ========== BUTTONS ========== */
     .btn {
@@ -404,27 +354,91 @@
       white-space: nowrap;
     }
 
-    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-    .btn:active:not(:disabled) { transform: translateY(0); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
 
-    .btn-primary { background-color: var(--primary); color: white; }
-    .btn-primary:hover:not(:disabled) { background-color: var(--primary-dark); }
-    .btn-secondary { background-color: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-secondary:hover:not(:disabled) { background-color: var(--border); }
-    .btn-success { background-color: var(--success); color: white; }
-    .btn-success:hover:not(:disabled) { background-color: #229954; }
-    .btn-danger { background-color: var(--danger); color: white; }
-    .btn-danger:hover:not(:disabled) { background-color: #c0392b; }
-    .btn-warning { background-color: var(--warning); color: white; }
-    .btn-warning:hover:not(:disabled) { background-color: #e08a0e; }
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
 
-    .btn-lg { padding: 1rem 2rem; font-size: 1rem; }
-    .btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
-    .btn-block { width: 100%; }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
-    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn-group-vertical { display: flex; flex-direction: column; gap: 1rem; }
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--border);
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: #229954;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: #c0392b;
+    }
+
+    .btn-warning {
+      background-color: var(--warning);
+      color: white;
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background-color: #e08a0e;
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-group-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
     /* ========== QUIZ INTERFACE ========== */
     .quiz-header {
@@ -435,14 +449,33 @@
       margin-bottom: 2rem;
     }
 
-    .quiz-header h2 { margin-bottom: 0.5rem; color: white; }
-    .quiz-header .subtitle { color: rgba(255, 255, 255, 0.9); }
+    .quiz-header h2 {
+      margin-bottom: 0.5rem;
+      color: white;
+    }
+
+    .quiz-header .subtitle {
+      color: rgba(255, 255, 255, 0.9);
+    }
 
     .quiz-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .75rem;
+      margin: 0;
+    }
+
+    .quiz-progress-panel {
+      position: sticky;
+      top: .75rem;
+      z-index: 20;
+      margin: 0 0 1.5rem;
+      padding: .85rem;
+      background: rgba(255, 255, 255, .96);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
     }
 
     .stat-box {
@@ -454,15 +487,42 @@
       transition: all var(--transition);
     }
 
-    .stat-box:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
-    .stat-box .stat-label { font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
-    .stat-box .stat-value { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
-    .stat-box.warning .stat-value { color: var(--warning); }
-    .stat-box.danger .stat-value { color: var(--danger); }
-    .stat-box.success .stat-value { color: var(--success); }
+    .stat-box:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-box .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-box .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .stat-box.warning .stat-value {
+      color: var(--warning);
+    }
+
+    .stat-box.danger .stat-value {
+      color: var(--danger);
+    }
+
+    .stat-box.success .stat-value {
+      color: var(--success);
+    }
 
     /* ========== PROGRESS BAR ========== */
-    .progress-container { margin-bottom: 2rem; }
+    .progress-container {
+      margin: .8rem .2rem .1rem;
+    }
 
     .progress-bar {
       width: 100%;
@@ -482,7 +542,11 @@
     }
 
     /* ========== QUIZ QUESTIONS ========== */
-    .question-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .question-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
 
     .question-card {
       background: var(--bg-primary);
@@ -492,12 +556,63 @@
       transition: all var(--transition);
     }
 
-    .question-card:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1); }
-    .question-card.answered { border-color: var(--primary-light); background: linear-gradient(135deg, rgba(91, 141, 239, 0.02), transparent); }
+    .question-card:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(44, 90, 160, 0.1);
+    }
 
-    .question-number { font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.75rem; }
-    .question-text { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1.25rem; line-height: 1.5; }
-    .question-options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .question-card.answered {
+      border-color: var(--primary-light);
+      background: linear-gradient(135deg, rgba(91, 141, 239, 0.02), transparent);
+    }
+
+    .question-card.answered .question-number { color: var(--primary); }
+
+    .quiz-submit-area {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .quiz-submit-area .btn { min-width: min(100%, 280px); }
+
+    #syncStatus:not(:empty) {
+      padding: .75rem 1rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    @media (max-width: 600px) {
+      .quiz-progress-panel { top: 0; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+      .quiz-stats { gap: .4rem; }
+      .stat-box { padding: .55rem .25rem; }
+      .stat-box .stat-label { font-size: .65rem; line-height: 1.2; }
+      .stat-box .stat-value { font-size: 1.1rem; }
+    }
+
+    .question-number {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .question-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
 
     .option-label {
       display: flex;
@@ -511,14 +626,45 @@
       background: var(--bg-secondary);
     }
 
-    .option-label:hover { background: var(--bg-tertiary); border-color: var(--primary-light); }
-    .option-label input[type="radio"] { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--primary); }
-    .option-text { flex: 1; color: var(--text-primary); font-weight: 500; }
+    .option-label:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--primary-light);
+    }
 
-    .option-label.correct { background: rgba(39, 174, 96, 0.1); border-color: var(--success); }
-    .option-label.correct .option-text { color: var(--success); font-weight: 600; }
-    .option-label.incorrect { background: rgba(231, 76, 60, 0.1); border-color: var(--danger); }
-    .option-label.incorrect .option-text { color: var(--danger); font-weight: 600; }
+    .option-label input[type="radio"] {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .option-text {
+      flex: 1;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .option-label.correct {
+      background: rgba(39, 174, 96, 0.1);
+      border-color: var(--success);
+    }
+
+    .option-label.correct .option-text {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .option-label.incorrect {
+      background: rgba(231, 76, 60, 0.1);
+      border-color: var(--danger);
+    }
+
+    .option-label.incorrect .option-text {
+      color: var(--danger);
+      font-weight: 600;
+    }
 
     /* ========== ALERTS & MESSAGES ========== */
     .alert {
@@ -529,16 +675,47 @@
       animation: slideUp 0.3s ease-out;
     }
 
-    .alert.show { display: block; }
-    .alert-success { background: rgba(39, 174, 96, 0.1); border-left-color: var(--success); color: #229954; }
-    .alert-info { background: rgba(52, 152, 219, 0.1); border-left-color: var(--info); color: #2874a6; }
-    .alert-warning { background: rgba(245, 158, 11, 0.1); border-left-color: var(--warning); color: #b8860b; }
-    .alert-danger { background: rgba(231, 76, 60, 0.1); border-left-color: var(--danger); color: #c0392b; }
-    .alert-title { font-weight: 700; margin-bottom: 0.25rem; }
+    .alert.show {
+      display: block;
+    }
+
+    .alert-success {
+      background: rgba(39, 174, 96, 0.1);
+      border-left-color: var(--success);
+      color: #229954;
+    }
+
+    .alert-info {
+      background: rgba(52, 152, 219, 0.1);
+      border-left-color: var(--info);
+      color: #2874a6;
+    }
+
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border-left-color: var(--warning);
+      color: #b8860b;
+    }
+
+    .alert-danger {
+      background: rgba(231, 76, 60, 0.1);
+      border-left-color: var(--danger);
+      color: #c0392b;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
 
     /* ========== LEADERBOARD ========== */
-    .leaderboard-wrapper { margin-top: 2rem; }
-    .leaderboard-header { margin-bottom: 1.5rem; }
+    .leaderboard-wrapper {
+      margin-top: 2rem;
+    }
+
+    .leaderboard-header {
+      margin-bottom: 1.5rem;
+    }
 
     .leaderboard-table {
       width: 100%;
@@ -549,23 +726,92 @@
       overflow: hidden;
     }
 
-    .leaderboard-table thead { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; }
-    .leaderboard-table th { padding: 1.25rem; text-align: left; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .leaderboard-table td { padding: 1.25rem; border-top: 1px solid var(--border); color: var(--text-primary); }
-    .leaderboard-table tbody tr:hover { background: var(--bg-secondary); }
-    .leaderboard-table tbody tr:nth-child(even) { background: var(--bg-secondary); }
+    .leaderboard-table thead {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
 
-    .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; font-weight: 700; color: white; font-size: 1rem; }
-    .rank-badge-1 { background: linear-gradient(135deg, #f39c12, #e67e22); box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3); }
-    .rank-badge-2 { background: linear-gradient(135deg, #bdc3c7, #95a5a6); box-shadow: 0 2px 8px rgba(189, 195, 199, 0.3); }
-    .rank-badge-3 { background: linear-gradient(135deg, #d4663b, #a0411f); box-shadow: 0 2px 8px rgba(212, 102, 59, 0.3); }
-    .rank-badge-other { background: var(--text-secondary); }
+    .leaderboard-table th {
+      padding: 1.25rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-    .score-badge { display: inline-block; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); font-weight: 700; font-size: 0.9rem; }
-    .score-badge-perfect { background: rgba(39, 174, 96, 0.2); color: var(--success); }
-    .score-badge-good { background: rgba(52, 152, 219, 0.2); color: var(--info); }
-    .score-badge-average { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-    .score-badge-low { background: rgba(231, 76, 60, 0.2); color: var(--danger); }
+    .leaderboard-table td {
+      padding: 1.25rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .leaderboard-table tbody tr:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-weight: 700;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .rank-badge-1 {
+      background: linear-gradient(135deg, #f39c12, #e67e22);
+      box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+    }
+
+    .rank-badge-2 {
+      background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+      box-shadow: 0 2px 8px rgba(189, 195, 199, 0.3);
+    }
+
+    .rank-badge-3 {
+      background: linear-gradient(135deg, #d4663b, #a0411f);
+      box-shadow: 0 2px 8px rgba(212, 102, 59, 0.3);
+    }
+
+    .rank-badge-other {
+      background: var(--text-secondary);
+    }
+
+    .score-badge {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .score-badge-perfect {
+      background: rgba(39, 174, 96, 0.2);
+      color: var(--success);
+    }
+
+    .score-badge-good {
+      background: rgba(52, 152, 219, 0.2);
+      color: var(--info);
+    }
+
+    .score-badge-average {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--warning);
+    }
+
+    .score-badge-low {
+      background: rgba(231, 76, 60, 0.2);
+      color: var(--danger);
+    }
 
     /* ========== FOOTER ========== */
     footer {
@@ -576,59 +822,212 @@
       border-top: 1px solid var(--border);
     }
 
-    footer .footer-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
-    footer h3 { font-size: 1.1rem; margin-bottom: 1rem; font-weight: 700; }
-    footer a { color: rgba(255, 255, 255, 0.9); text-decoration: none; transition: color var(--transition); }
-    footer a:hover { color: white; }
-    footer ul { list-style: none; }
-    footer li { margin-bottom: 0.75rem; }
-    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 1.5rem; text-align: center; color: rgba(255, 255, 255, 0.8); }
+    footer .footer-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    footer h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    footer a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1.5rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+    }
 
     /* ========== ANIMATIONS ========== */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    @keyframes slideInRight { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    @keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
 
     /* ========== RESPONSIVE DESIGN ========== */
     @media (max-width: 768px) {
-      section > h1 { font-size: 1.75rem; }
-      section > h2 { font-size: 1.5rem; }
-      .modal-content { padding: 2rem; margin: 1rem; }
-      .btn-group { flex-direction: column; }
-      .quiz-stats { grid-template-columns: 1fr; }
-      .stat-box .stat-value { font-size: 2rem; }
-      .leaderboard-table { font-size: 0.875rem; }
-      .leaderboard-table th, .leaderboard-table td { padding: 0.75rem; }
-      .navbar-nav { gap: 1rem; }
-      .navbar-nav a { padding: 0.5rem; }
-      .card { padding: 1.25rem; }
-      .question-card { padding: 1.25rem; }
+      section > h1 {
+        font-size: 1.75rem;
+      }
+
+      section > h2 {
+        font-size: 1.5rem;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .quiz-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-box .stat-value {
+        font-size: 2rem;
+      }
+
+      .leaderboard-table {
+        font-size: 0.875rem;
+      }
+
+      .leaderboard-table th,
+      .leaderboard-table td {
+        padding: 0.75rem;
+      }
+
+      .navbar-nav {
+        gap: 1rem;
+      }
+
+      .navbar-nav a {
+        padding: 0.5rem;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+
+      .question-card {
+        padding: 1.25rem;
+      }
     }
 
     @media (max-width: 480px) {
-      body { font-size: 14px; }
-      .modal-content { padding: 1.5rem; margin: 1rem; }
-      .navbar-brand { font-size: 1rem; }
-      .navbar-brand-logo { width: 40px; height: 40px; }
-      section > h1 { font-size: 1.5rem; }
-      section > h2 { font-size: 1.25rem; }
-      .stat-box .stat-value { font-size: 1.5rem; }
-      .btn { padding: 0.75rem 1rem; font-size: 0.875rem; }
-      .question-card { padding: 1rem; }
-      .leaderboard-table th, .leaderboard-table td { padding: 0.5rem; font-size: 0.75rem; }
-      .rank-badge { width: 32px; height: 32px; font-size: 0.875rem; }
+      body {
+        font-size: 14px;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .navbar-brand {
+        font-size: 1rem;
+      }
+
+      .navbar-brand-logo {
+        width: 40px;
+        height: 40px;
+      }
+
+      section > h1 {
+        font-size: 1.5rem;
+      }
+
+      section > h2 {
+        font-size: 1.25rem;
+      }
+
+      .stat-box .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+      }
+
+      .question-card {
+        padding: 1rem;
+      }
+
+      .leaderboard-table th,
+      .leaderboard-table td {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      .rank-badge {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+      }
     }
 
     /* ========== PRINT STYLES ========== */
     @media print {
-      * { box-shadow: none !important; }
-      body { background: white; }
-      header, footer { display: none; }
-      .btn-group, .modal-overlay { display: none; }
-      .question-card, .card { page-break-inside: avoid; border: 1px solid #ccc; box-shadow: none !important; }
-      @page { margin: 1cm; }
+      * {
+        box-shadow: none !important;
+      }
+
+      body {
+        background: white;
+      }
+
+      header,
+      footer {
+        display: none;
+      }
+
+      .btn-group,
+      .modal-overlay {
+        display: none;
+      }
+
+      .question-card,
+      .card {
+        page-break-inside: avoid;
+        border: 1px solid #ccc;
+        box-shadow: none !important;
+      }
+
+      @page {
+        margin: 1cm;
+      }
     }
 
     /* ========== ACCESSIBILITY ========== */
@@ -644,8 +1043,19 @@
       border-width: 0;
     }
 
-    *:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
-    button:focus, a:focus, input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
+    *:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    button:focus,
+    a:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
@@ -659,15 +1069,7 @@
           </div>
           <span>Family of Grace</span>
         </a>
-        <nav class="navbar-nav" id="navLinks" role="navigation" aria-label="Main navigation">
-          <a href="index.html" title="Go to home page">Home</a>
-          <a href="#leaderboard" title="View quiz leaderboard">Leaderboard</a>
-        </nav>
-        <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <nav class="navbar-nav" role="navigation" aria-label="Main navigation"><a href="family.html">Home</a><a href="about.html">About</a></nav>
       </div>
     </div>
   </header>
@@ -680,28 +1082,51 @@
         Enter your details to begin the Family of Grace Bible Quiz on the Book of Ruth
       </p>
 
-      <form id="loginForm" method="POST" novalidate>
+      <form id="loginForm" novalidate>
         <div class="form-group">
           <label for="playerName">Full Name <span style="color: var(--danger);">*</span></label>
-          <input type="text" id="playerName" placeholder="John Doe" autocomplete="name" required aria-required="true">
+          <input
+            type="text"
+            id="playerName"
+            placeholder="John Doe"
+            autocomplete="name"
+            required
+            aria-required="true"
+          >
           <span class="form-error" id="nameError"></span>
         </div>
 
         <div class="form-group">
           <label for="playerCode">Access Code <span style="color: var(--danger);">*</span></label>
-          <input type="text" id="playerCode" placeholder="e.g., FG171" autocomplete="off" required aria-required="true" style="text-transform: uppercase;">
+          <input
+            type="text"
+            id="playerCode"
+            placeholder="Your assigned access code"
+            autocomplete="off"
+            required
+            aria-required="true"
+            style="text-transform: uppercase;"
+          >
           <span class="form-error" id="codeError"></span>
         </div>
 
         <div class="form-group">
           <label for="playerEmail">Email Address <span style="color: var(--danger);">*</span></label>
-          <input type="email" id="playerEmail" placeholder="john@example.com" autocomplete="email" required aria-required="true">
+          <input
+            type="email"
+            id="playerEmail"
+            placeholder="john@example.com"
+            autocomplete="email"
+            required
+            aria-required="true"
+          >
           <span class="form-error" id="emailError"></span>
         </div>
 
-        <button type="submit" id="startBtn" class="btn btn-primary btn-block btn-lg">
+        <button type="button" id="startBtn" class="btn btn-primary btn-block btn-lg">
           Start Quiz
         </button>
+        <p id="startStatus" role="status" aria-live="polite"></p>
 
         <div class="form-notice">
           📋 <strong>Quiz Details:</strong> 21 questions • 15 minutes • Book of Ruth
@@ -722,120 +1147,32 @@
         </p>
       </section>
 
-      <!-- QUIZ STATISTICS SECTION -->
-      <section>
-        <h3 class="sr-only">Quiz Progress Statistics</h3>
+      <section class="quiz-progress-panel" aria-label="Quiz progress">
         <div class="quiz-stats">
-          <div class="stat-box" id="timerBox">
-            <div class="stat-label">⏱️ Time Remaining</div>
-            <div class="stat-value" id="timeDisplay" aria-live="polite">15:00</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">📝 Answered</div>
-            <div class="stat-value" id="answeredCount" aria-live="polite">0/21</div>
-          </div>
+          <div class="stat-box" id="timerBox"><div class="stat-label">Time remaining</div><div class="stat-value" id="timeDisplay" aria-live="polite">15:00</div></div>
+          <div class="stat-box"><div class="stat-label">Time spent</div><div class="stat-value" id="elapsedDisplay">0:00</div></div>
+          <div class="stat-box"><div class="stat-label">Answered</div><div class="stat-value" id="answeredCount" aria-live="polite">0/21</div></div>
         </div>
-      </section>
-
-      <!-- PROGRESS BAR SECTION -->
-      <section>
-        <h3 class="sr-only">Quiz Progress</h3>
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-bar-fill" id="progressFill" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        </div>
+        <div class="progress-container"><div class="progress-bar"><div class="progress-bar-fill" id="progressFill" role="progressbar" aria-label="Time remaining" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div></div></div>
       </section>
 
       <!-- QUIZ CONTENT CARD -->
       <div class="card">
         <!-- RESULT MESSAGE -->
         <div class="alert" id="resultMessage" role="alert" aria-live="polite"></div>
+        <p id="syncStatus" role="status" aria-live="polite"></p>
 
-        <!-- RESULTS SUMMARY (Hidden until submitted) -->
-        <div id="resultsSummary" style="display: none; margin-bottom: 2rem;">
-          <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(52, 152, 219, 0.1)); border-radius: var(--radius-lg); padding: 2rem; border-left: 4px solid var(--success);">
-            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">📊 Quiz Results Summary</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem;">
-              <div>
-                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Your Score</div>
-                <div id="summaryScore" style="font-size: 2.5rem; font-weight: 700; color: var(--success);">0/21</div>
-              </div>
-              <div>
-                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Percentage</div>
-                <div id="summaryPercentage" style="font-size: 2.5rem; font-weight: 700; color: var(--info);">0%</div>
-              </div>
-              <div>
-                <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Time Taken</div>
-                <div id="summaryTime" style="font-size: 2.5rem; font-weight: 700; color: var(--warning);">0:00</div>
-              </div>
-            </div>
-            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
-              <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 0.5rem 0;">
-                <strong>📧 Email Status:</strong> <span id="emailStatus" style="color: var(--text-secondary);">Preparing to send results...</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
+        <!-- QUIZ FORM -->
         <form id="quizForm" class="question-container" autocomplete="off" novalidate>
           <!-- Questions will be rendered here by JavaScript -->
         </form>
 
-        <!-- ACTION BUTTONS -->
-        <div class="btn-group" style="margin-top: 2rem;">
-          <button id="submitBtn" class="btn btn-primary btn-lg" type="button" title="Submit all answers">
-            ✓ Submit Answers
-          </button>
-          <button id="printBtn" class="btn btn-secondary btn-lg" type="button" title="Print quiz results">
-            🖨️ Print Results
-          </button>
-          <button id="exportBtn" class="btn btn-warning btn-lg" type="button" title="Export results as CSV">
-            📥 Export CSV
-          </button>
+        <div class="quiz-submit-area">
+          <button id="submitBtn" class="btn btn-primary btn-lg" type="button">Submit Answers</button>
         </div>
       </div>
     </div>
 
-    <!-- LEADERBOARD SECTION -->
-    <section id="leaderboard">
-      <div class="container-lg">
-        <h2>🏆 Quiz Leaderboard</h2>
-        <p class="subtitle">Top performers in the Family of Grace Bible Quiz</p>
-
-        <div class="card">
-          <div class="leaderboard-wrapper">
-            <div class="leaderboard-header">
-              <p class="label-text">
-                <strong id="leaderboardCount">0</strong> participants have completed the assessment
-              </p>
-            </div>
-
-            <div style="overflow-x: auto;">
-              <table class="leaderboard-table" role="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Percentage</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                <tbody id="leaderboardBody">
-                  <tr>
-                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                      No results yet. Complete the quiz to appear here.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- FOOTER -->
@@ -844,781 +1181,21 @@
       <div class="footer-inner">
         <div>
           <h3>About This Quiz</h3>
-          <p>The Family of Grace Bible Quiz is an assessment platform designed to test knowledge of the Book of Ruth in a professional academic setting. All results are securely stored and emailed to participants.</p>
+          <p>The Family of Grace Bible Quiz is an assessment platform designed to test knowledge of the Book of Ruth in a professional academic setting.</p>
         </div>
         <div>
           <h3>Quick Links</h3>
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About Us</a></li>
-            <li><a href="#leaderboard">Leaderboard</a></li>
-            <li><a href="mailto:oyebodemathew555@gmail.com">Contact Support</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Quiz Information</h3>
-          <ul>
-            <li>📊 21 Multiple Choice Questions</li>
-            <li>⏱️ 15 Minutes Time Limit</li>
-            <li>📖 Book of Ruth Assessment</li>
-            <li>✉️ Email Results Delivery</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        © <span id="year"></span> Family of Grace. All rights reserved. | Results sent to: <strong>oyebodemathew555@gmail.com</strong>
+        © <span id="year"></span> Family of Grace. All rights reserved.
       </div>
     </div>
   </footer>
 
-  <!-- FIREBASE SCRIPTS (COMPAT VERSION) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <!-- EMAILJS LIBRARY -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.11.0/dist/index.min.js"></script>
-
-  <!-- MAIN QUIZ JAVASCRIPT -->
-  <script>
-    // ============================================================
-    // FIREBASE & EMAIL INITIALIZATION
-    // ============================================================
-    let db;
-    let emailjsReady = false;
-    
-    // Initialize on DOM Ready
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize EmailJS
-      try {
-        if (typeof emailjs !== 'undefined') {
-          emailjs.init("cWsZ9EVl7BcTcGNNP");
-          emailjsReady = true;
-          console.log("✅ EmailJS initialized successfully");
-        } else {
-          console.warn("⚠️ EmailJS library not available - email features may be limited");
-        }
-      } catch (err) {
-        console.error("❌ EmailJS initialization error:", err);
-      }
-      
-      // Initialize Firebase
-      if (typeof firebase !== 'undefined') {
-        try {
-          if (!firebase.apps.length) {
-            const firebaseConfig = {
-              apiKey: "AIzaSyDKl-y2Zw0ePmIE_Cos30GuZJPlZhLKr7U",
-              authDomain: "family-ddc8d.firebaseapp.com",
-              databaseURL: "https://family-ddc8d-default-rtdb.firebaseio.com",
-              projectId: "family-ddc8d",
-              storageBucket: "family-ddc8d.firebasestorage.app",
-              messagingSenderId: "825701966546",
-              appId: "1:825701966546:web:6f35ac017ea303557a030b"
-            };
-            firebase.initializeApp(firebaseConfig);
-          }
-          db = firebase.firestore();
-          console.log("✅ Firebase initialized successfully");
-        } catch (err) {
-          console.error("❌ Firebase initialization error:", err);
-        }
-      } else {
-        console.warn("⚠️ Firebase library not loaded");
-      }
-    });
-
-    // ============================================================
-    // CONFIGURATION
-    // ============================================================
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Valid access codes
-    const VALID_CODES = [
-      "FG171", "FG122", "FG193", "FG425", "FG149",
-      "FG432", "FG782", "FG800", "FG042", "FG510",
-      "FG191", "FG182", "FG163", "FG414", "FG195",
-      "FG116", "FG148", "FG119", "FG530", "FG200"
-    ];
-
-    // Question bank
-    const QUESTION_BANK = [
-      { q: "What was the name of Elimelech's hometown in Judah where he lived before going to Moab?", options: ["Bethlehem-judah", "Jerusalem", "Hebron", "Ramah"], a: 0 },
-      { q: "How long did Naomi's family dwell in the country of Moab before her sons died?", options: ["Five years", "Seven years", "About ten years", "Twelve years"], a: 2 },
-      { q: "What were the names of Elimelech and Naomi's two sons?", options: ["Mahlon and Chilion", "Mahlon and Boaz", "Chilion and Obed", "Mahlon and Obed"], a: 0 },
-      { q: "Which daughter-in-law did Naomi kiss before she returned to her people?", options: ["Ruth", "Orpah", "Both Ruth and Orpah", "Neither of them"], a: 1 },
-      { q: "What specific reason did Naomi give to discourage her daughters-in-law from following her?", options: ["She had no more sons in her womb to be their husbands", "She was too poor to support them", "They would be outcasts in Israel", "The journey was too dangerous"], a: 0 },
-      { q: "What name did Naomi ask to be called when she returned to Bethlehem, and what does it mean?", options: ["Naomi, meaning pleasant", "Mara, meaning bitter", "Ruth, meaning compassionate", "Orpah, meaning back of neck"], a: 1 },
-      { q: "At what time of year did Naomi and Ruth arrive in Bethlehem?", options: ["At the beginning of wheat harvest", "At the beginning of barley harvest", "At the end of harvest season", "During the grape harvest"], a: 1 },
-      { q: "How is Boaz described in relation to Elimelech?", options: ["A distant cousin", "A brother", "A mighty man of wealth and a kinsman of Elimelech's", "Elimelech's nephew"], a: 2 },
-      { q: "What did Ruth ask Naomi for permission to do?", options: ["Go to the marketplace", "Go to the field and glean ears of corn after someone in whose sight she would find grace", "Go to the well to draw water", "Go to the city gate"], a: 1 },
-      { q: "What greeting did Boaz give to his reapers when he came from Bethlehem?", options: ["Peace be with you", "The Lord bless you", "Grace and peace", "God be with you"], a: 1 },
-      { q: "What did Boaz command his young men NOT to do to Ruth?", options: ["Not to speak to her", "Not to rebuke her", "Not to touch her", "Not to allow her to glean"], a: 2 },
-      { q: "What specific instruction did Boaz give his young men regarding Ruth's gleaning?", options: ["To give her the best grain", "To let fall some handfuls of purpose for her", "To help her gather grain", "To share their lunch with her"], a: 1 },
-      { q: "How much barley did Ruth glean and beat out that day?", options: ["Half an ephah", "About an ephah", "Two ephahs", "Three ephahs"], a: 1 },
-      { q: "What did Ruth give to Naomi after she had eaten and was sufficed?", options: ["Money from selling grain", "Bread from Boaz", "What she had reserved after she was sufficed", "A gift from the reapers"], a: 2 },
-      { q: "What did Naomi tell Ruth that Boaz would be doing that night?", options: ["Threshing wheat", "Winnowing barley in the threshing floor", "Counting his grain", "Celebrating the harvest"], a: 1 },
-      { q: "What did Naomi instruct Ruth to do before going to the threshing floor?", options: ["Take food and drink", "Wash herself, anoint herself, and put on her raiment", "Tell Boaz she was coming", "Bring offerings to the Lord"], a: 1 },
-      { q: "According to Naomi's instructions, when should Ruth make herself known to Boaz?", options: ["As soon as she arrived at the threshing floor", "When he was eating", "After he had finished eating and drinking", "In the morning"], a: 2 },
-      { q: "Where specifically did Naomi tell Ruth to lie down?", options: ["At Boaz's head", "At Boaz's feet", "Near the door", "By the grain pile"], a: 1 },
-      { q: "At what time did Boaz discover Ruth lying at his feet?", options: ["At sunset", "At midnight", "At dawn", "In the early evening"], a: 1 },
-      { q: "What reason did Boaz give for blessing Ruth for coming to him?", options: ["Because she showed kindness in not going after young men, whether poor or rich", "Because she was faithful to Naomi", "Because she worked hard in the fields", "Because she was humble and obedient"], a: 0 },
-      { q: "How much barley did Boaz measure out for Ruth before she left in the morning?", options: ["Three measures of barley", "Six measures of barley", "Ten measures of barley", "Twelve measures of barley"], a: 1 }
-    ];
-
-    const TOTAL_QUESTIONS = 21;
-    const TOTAL_TIME = 900; // 15 minutes in seconds
-    const STORAGE_KEY = "fg_quiz_results";
-
-    // Application state
-    let state = {
-      currentPlayer: null,
-      selectedAnswers: {},
-      pickedQuestions: [],
-      timeRemaining: TOTAL_TIME,
-      timerInterval: null,
-      isSubmitted: false,
-      quizStartTime: null
-    };
-
-    // ============================================================
-    // UTILITY FUNCTIONS
-    // ============================================================
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function pickRandomQuestions() {
-      const indices = [...Array(QUESTION_BANK.length).keys()];
-      shuffle(indices);
-      return indices.slice(0, TOTAL_QUESTIONS).map(i => QUESTION_BANK[i]);
-    }
-
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return String(text).replace(/[&<>"']/g, m => map[m]);
-    }
-
-    function showNotification(message, type = 'info', duration = 3000) {
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        z-index: 10000;
-        animation: slideIn 0.3s ease-out;
-        max-width: 400px;
-        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        color: white;
-      `;
-      const bgColors = { success: '#27ae60', error: '#e74c3c', info: '#3498db', warning: '#f39c12' };
-      notification.style.backgroundColor = bgColors[type] || bgColors.info;
-      notification.textContent = message;
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-      }, duration);
-    }
-
-    // ============================================================
-    // TIMER & STATS
-    // ============================================================
-    function updateTimerDisplay() {
-      const timeDisplay = document.getElementById('timeDisplay');
-      const timerBox = document.getElementById('timerBox');
-      if (!timeDisplay) return;
-
-      timeDisplay.textContent = formatTime(state.timeRemaining);
-      timerBox.className = 'stat-box';
-
-      if (state.timeRemaining <= 60) {
-        timerBox.classList.add('danger');
-      } else if (state.timeRemaining <= 300) {
-        timerBox.classList.add('warning');
-      }
-    }
-
-    function updateStats() {
-      let answered = 0;
-      state.pickedQuestions.forEach((q, idx) => {
-        if (state.selectedAnswers[idx] !== undefined) answered++;
-      });
-      const answerEl = document.getElementById('answeredCount');
-      if (answerEl) answerEl.textContent = `${answered}/${TOTAL_QUESTIONS}`;
-    }
-
-    function startTimer() {
-      state.timeRemaining = TOTAL_TIME;
-      state.quizStartTime = Date.now();
-      state.isSubmitted = false;
-      updateTimerDisplay();
-      clearInterval(state.timerInterval);
-
-      state.timerInterval = setInterval(() => {
-        state.timeRemaining--;
-        updateTimerDisplay();
-
-        const progressFill = document.getElementById('progressFill');
-        if (progressFill) {
-          const percentage = Math.max(0, (state.timeRemaining / TOTAL_TIME) * 100);
-          progressFill.style.width = `${percentage}%`;
-          progressFill.setAttribute('aria-valuenow', Math.round(percentage));
-        }
-
-        if (state.timeRemaining <= 0) {
-          clearInterval(state.timerInterval);
-          submitQuiz(true);
-        }
-      }, 1000);
-    }
-
-    // ============================================================
-    // RENDER QUIZ
-    // ============================================================
-    function renderQuiz() {
-      state.pickedQuestions = pickRandomQuestions();
-      state.selectedAnswers = {};
-      const form = document.getElementById('quizForm');
-      if (!form) return;
-      form.innerHTML = '';
-
-      state.pickedQuestions.forEach((question, qIdx) => {
-        const card = document.createElement('div');
-        card.className = 'question-card';
-        card.setAttribute('role', 'group');
-        card.setAttribute('aria-labelledby', `q${qIdx}_title`);
-
-        const header = document.createElement('div');
-        header.className = 'question-number';
-        header.textContent = `Question ${qIdx + 1} of ${TOTAL_QUESTIONS}`;
-        card.appendChild(header);
-
-        const titleEl = document.createElement('div');
-        titleEl.className = 'question-text';
-        titleEl.id = `q${qIdx}_title`;
-        titleEl.textContent = question.q;
-        card.appendChild(titleEl);
-
-        const optionsContainer = document.createElement('fieldset');
-        optionsContainer.className = 'question-options';
-        optionsContainer.setAttribute('role', 'group');
-
-        question.options.forEach((option, oIdx) => {
-          const label = document.createElement('label');
-          label.className = 'option-label';
-          const input = document.createElement('input');
-          input.type = 'radio';
-          input.name = `question_${qIdx}`;
-          input.value = oIdx;
-          input.id = `q${qIdx}_opt${oIdx}`;
-
-          input.addEventListener('change', (e) => {
-            state.selectedAnswers[qIdx] = parseInt(e.target.value);
-            card.classList.add('answered');
-            updateStats();
-          });
-
-          label.appendChild(input);
-          const optionText = document.createElement('span');
-          optionText.className = 'option-text';
-          optionText.textContent = option;
-          label.appendChild(optionText);
-          optionsContainer.appendChild(label);
-        });
-
-        card.appendChild(optionsContainer);
-        form.appendChild(card);
-      });
-
-      updateStats();
-    }
-
-    // ============================================================
-    // SUBMIT QUIZ
-    // ============================================================
-    function submitQuiz(autoSubmit = false) {
-      if (state.isSubmitted) return;
-      state.isSubmitted = true;
-      clearInterval(state.timerInterval);
-
-      const form = document.getElementById('quizForm');
-      let score = 0;
-
-      state.pickedQuestions.forEach((question, qIdx) => {
-        const selected = state.selectedAnswers[qIdx];
-        const correct = question.a;
-        const options = form.querySelectorAll(`input[name="question_${qIdx}"]`);
-
-        options.forEach((input) => {
-          const label = input.parentElement;
-          const optIdx = parseInt(input.value);
-          label.classList.remove('correct', 'incorrect');
-          if (optIdx === correct) {
-            label.classList.add('correct');
-          } else if (optIdx === selected && selected !== correct) {
-            label.classList.add('incorrect');
-          }
-        });
-
-        if (selected === correct) score++;
-      });
-
-      const timeUsed = Math.floor((Date.now() - state.quizStartTime) / 1000);
-      const percentage = Math.round((score / TOTAL_QUESTIONS) * 100);
-
-      // Show results summary
-      document.getElementById('resultsSummary').style.display = 'block';
-      document.getElementById('summaryScore').textContent = `${score}/${TOTAL_QUESTIONS}`;
-      document.getElementById('summaryPercentage').textContent = `${percentage}%`;
-      document.getElementById('summaryTime').textContent = formatTime(timeUsed);
-      document.getElementById('emailStatus').textContent = '📧 Sending results...';
-      document.getElementById('emailStatus').style.color = 'var(--info)';
-
-      // Show result alert
-      const resultMsg = document.getElementById('resultMessage');
-      if (resultMsg) {
-        const message = autoSubmit ? '⏱️ Time is up!' : '✅ Quiz submitted successfully!';
-        const alertClass = autoSubmit ? 'alert-info' : 'alert-success';
-        resultMsg.className = `alert show ${alertClass}`;
-        resultMsg.innerHTML = `
-          <div class="alert-title">${message}</div>
-          <div style="font-size: 0.95rem;">
-            Your Score: <strong>${score}/${TOTAL_QUESTIONS} (${percentage}%)</strong> | Time Used: <strong>${formatTime(timeUsed)}</strong>
-          </div>
-        `;
-      }
-
-      // Disable submit button
-      const submitBtn = document.getElementById('submitBtn');
-      if (submitBtn) submitBtn.disabled = true;
-
-      // Save to localStorage
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const data = raw ? JSON.parse(raw) : [];
-      data.push({
-        name: state.currentPlayer.name,
-        code: state.currentPlayer.code,
-        email: state.currentPlayer.email,
-        score: score,
-        percentage: percentage,
-        time: timeUsed,
-        date: new Date().toLocaleString()
-      });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-      updateLeaderboard();
-
-      // Send results via email and save to database
-      sendResults(
-        state.currentPlayer.name,
-        state.currentPlayer.email,
-        state.currentPlayer.code,
-        score,
-        percentage,
-        timeUsed
-      );
-    }
-
-    // ============================================================
-    // SEND RESULTS (EMAIL + DATABASE)
-    // ============================================================
-    async function sendResults(name, email, code, score, percentage, timeUsed) {
-      const emailStatusEl = document.getElementById('emailStatus');
-      let emailSent = false;
-      let dbSaved = false;
-      
-      try {
-        // Step 1: Send email to participant (if EmailJS is available)
-        if (emailjsReady && typeof emailjs !== 'undefined') {
-          if (emailStatusEl) {
-            emailStatusEl.textContent = '📧 Sending email to participant...';
-            emailStatusEl.style.color = 'var(--info)';
-          }
-          
-          try {
-            const participantEmailResult = await emailjs.send(
-              'service_33oy39w',
-              'template_y1ahe6k',
-              {
-                to_email: email,
-                to_name: name,
-                score: score,
-                total_questions: TOTAL_QUESTIONS,
-                percentage: percentage,
-                time_taken: formatTime(timeUsed),
-                date_submitted: new Date().toLocaleString(),
-                access_code: code,
-                message: `Congratulations on completing the Family of Grace Bible Quiz! Your results have been recorded and saved.`
-              }
-            );
-            
-            console.log("✅ Participant email sent:", participantEmailResult.status);
-            emailSent = true;
-            
-            // Step 2: Send notification to admin
-            try {
-              await emailjs.send(
-                'service_33oy39w',
-                'template_y1ahe6k',
-                {
-                  to_email: 'oyebodemathew555@gmail.com',
-                  to_name: 'Admin',
-                  score: score,
-                  total_questions: TOTAL_QUESTIONS,
-                  percentage: percentage,
-                  time_taken: formatTime(timeUsed),
-                  date_submitted: new Date().toLocaleString(),
-                  access_code: code,
-                  message: `New quiz submission: ${name} (${email}) scored ${score}/${TOTAL_QUESTIONS} (${percentage}%)`
-                }
-              );
-              console.log("✅ Admin notification sent");
-            } catch (adminErr) {
-              console.warn("⚠️ Admin email failed (non-critical):", adminErr);
-            }
-          } catch (emailErr) {
-            console.error("❌ Email sending error:", emailErr);
-            emailSent = false;
-          }
-        } else {
-          console.warn("⚠️ EmailJS not available - skipping email delivery");
-        }
-        
-        // Step 3: Save to Firebase
-        if (db && emailStatusEl) {
-          emailStatusEl.textContent = '💾 Saving to database...';
-          emailStatusEl.style.color = 'var(--info)';
-        }
-        
-        if (db) {
-          try {
-            const dbResult = await db.collection("quiz_results").add({
-              name: name,
-              email: email,
-              code: code,
-              score: score,
-              total: TOTAL_QUESTIONS,
-              percentage: percentage,
-              timeUsed: timeUsed,
-              date: new Date().toISOString(),
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            console.log("✅ Firebase save successful:", dbResult.id);
-            dbSaved = true;
-          } catch (fbErr) {
-            console.error("❌ Firebase save error:", fbErr);
-          }
-        } else {
-          console.warn("⚠️ Firebase not available - results saved locally only");
-        }
-        
-        // Step 4: Update status
-        if (emailStatusEl) {
-          if (emailSent) {
-            emailStatusEl.innerHTML = '✅ Email sent to ' + escapeHtml(email);
-            emailStatusEl.style.color = 'var(--success)';
-          } else if (dbSaved) {
-            emailStatusEl.innerHTML = '⚠️ Results saved (email service unavailable)';
-            emailStatusEl.style.color = 'var(--warning)';
-          } else {
-            emailStatusEl.textContent = '⚠️ Results saved locally';
-            emailStatusEl.style.color = 'var(--warning)';
-          }
-        }
-        
-        const message = emailSent ? '✅ Quiz submitted! Results emailed successfully.' : '✅ Quiz submitted! Results saved.';
-        showNotification(message, emailSent ? 'success' : 'info', 5000);
-        return emailSent || dbSaved;
-        
-      } catch (error) {
-        console.error("❌ Error sending results:", error);
-        
-        if (emailStatusEl) {
-          emailStatusEl.innerHTML = '⚠️ Error processing results - data saved locally. <br/><small>Contact support if issues persist.</small>';
-          emailStatusEl.style.color = 'var(--warning)';
-        }
-        
-        showNotification('⚠️ Results saved locally', 'warning', 5000);
-        return false;
-      }
-    }
-
-    // ============================================================
-    // LEADERBOARD
-    // ============================================================
-    function updateLeaderboard() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const data = raw ? JSON.parse(raw) : [];
-
-      data.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        return a.time - b.time;
-      });
-
-      const tbody = document.getElementById('leaderboardBody');
-      const countEl = document.getElementById('leaderboardCount');
-      if (!tbody) return;
-
-      if (data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">No results yet. Complete the quiz to appear here.</td></tr>';
-        if (countEl) countEl.textContent = '0';
-        return;
-      }
-
-      tbody.innerHTML = '';
-      data.forEach((rec, idx) => {
-        const tr = document.createElement('tr');
-
-        const rankCell = document.createElement('td');
-        const rankSpan = document.createElement('span');
-        rankSpan.className = 'rank-badge';
-        if (idx === 0) rankSpan.classList.add('rank-badge-1');
-        else if (idx === 1) rankSpan.classList.add('rank-badge-2');
-        else if (idx === 2) rankSpan.classList.add('rank-badge-3');
-        else rankSpan.classList.add('rank-badge-other');
-        rankSpan.textContent = idx + 1;
-        rankCell.appendChild(rankSpan);
-        tr.appendChild(rankCell);
-
-        const nameCell = document.createElement('td');
-        nameCell.textContent = escapeHtml(rec.name);
-        tr.appendChild(nameCell);
-
-        const scoreCell = document.createElement('td');
-        const scoreBadge = document.createElement('span');
-        scoreBadge.className = 'score-badge';
-        if (rec.percentage === 100) scoreBadge.classList.add('score-badge-perfect');
-        else if (rec.percentage >= 80) scoreBadge.classList.add('score-badge-good');
-        else if (rec.percentage >= 60) scoreBadge.classList.add('score-badge-average');
-        else scoreBadge.classList.add('score-badge-low');
-        scoreBadge.textContent = `${rec.score}/${TOTAL_QUESTIONS}`;
-        scoreCell.appendChild(scoreBadge);
-        tr.appendChild(scoreCell);
-
-        const percentageCell = document.createElement('td');
-        percentageCell.textContent = `${rec.percentage}%`;
-        tr.appendChild(percentageCell);
-
-        const timeCell = document.createElement('td');
-        timeCell.textContent = formatTime(rec.time);
-        tr.appendChild(timeCell);
-
-        const dateCell = document.createElement('td');
-        dateCell.textContent = rec.date;
-        tr.appendChild(dateCell);
-
-        tbody.appendChild(tr);
-      });
-
-      if (countEl) countEl.textContent = data.length;
-    }
-
-    // ============================================================
-    // EXPORT CSV
-    // ============================================================
-    function exportCSV() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        alert('No results to export yet.');
-        return;
-      }
-
-      const data = JSON.parse(raw);
-      data.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        return a.time - b.time;
-      });
-
-      const rows = [['Rank', 'Name', 'Code', 'Email', 'Score', 'Percentage', 'Time (s)', 'Date']];
-      data.forEach((rec, idx) => {
-        rows.push([
-          idx + 1,
-          rec.name,
-          rec.code,
-          rec.email,
-          `${rec.score}/${TOTAL_QUESTIONS}`,
-          `${rec.percentage}%`,
-          rec.time,
-          rec.date
-        ]);
-      });
-
-      const csv = rows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `fg_quiz_results_${new Date().getTime()}.csv`;
-      link.click();
-    }
-
-    // ============================================================
-    // FORM VALIDATION
-    // ============================================================
-    function validateForm() {
-      const nameInput = document.getElementById('playerName');
-      const codeInput = document.getElementById('playerCode');
-      const emailInput = document.getElementById('playerEmail');
-      let isValid = true;
-
-      const name = (nameInput.value || '').trim();
-      if (!name) {
-        nameInput.classList.add('error');
-        document.getElementById('nameError').textContent = 'Full name is required';
-        document.getElementById('nameError').classList.add('show');
-        isValid = false;
-      } else {
-        nameInput.classList.remove('error');
-        document.getElementById('nameError').classList.remove('show');
-      }
-
-      const code = (codeInput.value || '').trim().toUpperCase();
-      if (!code) {
-        codeInput.classList.add('error');
-        document.getElementById('codeError').textContent = 'Access code is required';
-        document.getElementById('codeError').classList.add('show');
-        isValid = false;
-      } else if (!VALID_CODES.includes(code)) {
-        codeInput.classList.add('error');
-        document.getElementById('codeError').textContent = 'Invalid access code. Please try again.';
-        document.getElementById('codeError').classList.add('show');
-        isValid = false;
-      } else {
-        codeInput.classList.remove('error');
-        document.getElementById('codeError').classList.remove('show');
-      }
-
-      const email = (emailInput.value || '').trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email) {
-        emailInput.classList.add('error');
-        document.getElementById('emailError').textContent = 'Email address is required';
-        document.getElementById('emailError').classList.add('show');
-        isValid = false;
-      } else if (!emailRegex.test(email)) {
-        emailInput.classList.add('error');
-        document.getElementById('emailError').textContent = 'Please enter a valid email address';
-        document.getElementById('emailError').classList.add('show');
-        isValid = false;
-      } else {
-        emailInput.classList.remove('error');
-        document.getElementById('emailError').classList.remove('show');
-      }
-
-      return isValid;
-    }
-
-    // ============================================================
-    // EVENT LISTENERS
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', () => {
-      const loginForm = document.getElementById('loginForm');
-      const startBtn = document.getElementById('startBtn');
-      const submitBtn = document.getElementById('submitBtn');
-      const exportBtn = document.getElementById('exportBtn');
-      const printBtn = document.getElementById('printBtn');
-      const playerNameInput = document.getElementById('playerName');
-      const playerCodeInput = document.getElementById('playerCode');
-      const playerEmailInput = document.getElementById('playerEmail');
-
-      // Start quiz on form submit
-      if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          if (!validateForm()) return;
-
-          const name = playerNameInput.value.trim();
-          const code = playerCodeInput.value.trim().toUpperCase();
-          const email = playerEmailInput.value.trim();
-
-          state.currentPlayer = { name, code, email };
-          document.getElementById('loginModal').style.display = 'none';
-          document.getElementById('quizMain').style.display = 'block';
-          renderQuiz();
-          startTimer();
-          updateLeaderboard();
-        });
-      }
-
-      if (startBtn) {
-        startBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          loginForm.dispatchEvent(new Event('submit'));
-        });
-      }
-
-      if (submitBtn) {
-        submitBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          if (!state.isSubmitted) submitQuiz(false);
-        });
-      }
-
-      if (exportBtn) exportBtn.addEventListener('click', exportCSV);
-      if (printBtn) printBtn.addEventListener('click', () => window.print());
-
-      // Clear error styling on input
-      [playerNameInput, playerCodeInput, playerEmailInput].forEach(input => {
-        if (input) {
-          input.addEventListener('input', () => {
-            input.classList.remove('error');
-            const errorId = input.id.replace('player', '').toLowerCase() + 'Error';
-            const errorEl = document.getElementById(errorId);
-            if (errorEl) errorEl.classList.remove('show');
-          });
-        }
-      });
-
-      // Force uppercase for access code as user types
-      if (playerCodeInput) {
-        playerCodeInput.addEventListener('input', () => {
-          const pos = playerCodeInput.selectionStart;
-          playerCodeInput.value = playerCodeInput.value.toUpperCase();
-          playerCodeInput.setSelectionRange(pos, pos);
-        });
-      }
-
-      updateLeaderboard();
-
-      // Hamburger Menu
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-
-      if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-          hamburger.classList.toggle('active');
-          navLinks.classList.toggle('active');
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-          });
-        });
-
-        document.addEventListener('click', (event) => {
-          if (!event.target.closest('header')) {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-          }
-        });
-      }
-    });
-  </script>
 </body>
 </html>

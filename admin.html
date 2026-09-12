@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz Results | Family of Grace Admin</title>
+  <style>
+    :root{font-family:system-ui,sans-serif;color:#18304d;background:#f3f6fa}*{box-sizing:border-box}
+    body{margin:0}header{background:#173a64;color:white;padding:1rem max(1rem,calc((100vw - 1100px)/2));display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    header a{color:white;text-decoration:none}main{max-width:1100px;margin:2rem auto;padding:0 1rem}h1{margin-top:0}
+    .card{background:white;border-radius:12px;padding:1.5rem;box-shadow:0 2px 12px #18304d14;margin-bottom:1rem}
+    form{display:grid;gap:.8rem;max-width:400px}label{font-weight:600}input{width:100%;padding:.75rem;border:1px solid #aab7c6;border-radius:7px;font:inherit}
+    button{border:0;border-radius:7px;background:#285d9a;color:white;padding:.75rem 1rem;font:inherit;cursor:pointer}button:disabled{opacity:.6;cursor:wait}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}.actions input{max-width:320px}
+    .stats{display:flex;gap:1rem;flex-wrap:wrap}.stat{background:#eaf1fa;padding:1rem;border-radius:8px;min-width:140px}.stat strong{display:block;font-size:1.4rem}
+    .table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:740px}th,td{text-align:left;padding:.8rem;border-bottom:1px solid #e0e7f0}th{background:#edf3fa}
+    #status{min-height:1.5rem}#status.error{color:#a52a2a}[hidden]{display:none!important}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+</head>
+<body>
+  <header><strong>Family of Grace · Quiz Admin</strong><a href="family.html">Home</a></header>
+  <main>
+    <h1>Quiz results</h1>
+    <p id="status" role="status" aria-live="polite"></p>
+    <section class="card" id="loginPanel">
+      <h2>Admin sign in</h2>
+      <form id="loginForm">
+        <label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Sign in</button>
+      </form>
+    </section>
+    <section id="dashboard" hidden>
+      <div class="card actions"><span id="signedInAs"></span><button id="refreshBtn" type="button">Refresh</button><button id="exportBtn" type="button">Export CSV</button><button id="signOutBtn" type="button">Sign out</button></div>
+      <div class="card stats"><div class="stat">Participants<strong id="count">0</strong></div><div class="stat">Average score<strong id="average">0%</strong></div><div class="stat">Highest score<strong id="highest">0/21</strong></div></div>
+      <div class="card"><div class="actions"><h2>All submissions</h2><input id="search" type="search" placeholder="Search name, email or code" aria-label="Search results"></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Code</th><th>Score</th><th>Time</th><th>Submitted</th></tr></thead><tbody id="rows"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const config = window.FG_SUPABASE || {};
+    const client = config.url && config.publishableKey && window.supabase
+      ? window.supabase.createClient(config.url, config.publishableKey) : null;
+    const statusEl = document.getElementById('status');
+    let results = [];
+    const setStatus = (message, error = false) => { statusEl.textContent = message; statusEl.classList.toggle('error', error); };
+    const escapeCsv = value => {
+      let text = String(value ?? '');
+      if (/^[\s]*[=+@-]/.test(text)) text = `'${text}`;
+      return `"${text.replaceAll('"', '""')}"`;
+    };
+
+    async function showSession(session) {
+      if (!session) {
+        document.getElementById('loginPanel').hidden = false;
+        document.getElementById('dashboard').hidden = true;
+        results = [];
+        return;
+      }
+      const { data, error } = await client.from('family_grace_quiz_admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
+      if (error || !data) {
+        await client.auth.signOut();
+        setStatus('This account does not have quiz admin access.', true);
+        return;
+      }
+      document.getElementById('loginPanel').hidden = true;
+      document.getElementById('dashboard').hidden = false;
+      document.getElementById('signedInAs').textContent = session.user.email;
+      await loadResults();
+    }
+
+    async function loadResults() {
+      setStatus('Loading results...');
+      const all = [];
+      let offset = 0;
+      while (true) {
+        const { data, error } = await client.from('family_grace_quiz_results')
+          .select('id,participant_name,participant_email,access_code,score,total_questions,time_seconds,submitted_at')
+          .order('submitted_at', { ascending: false }).range(offset, offset + 999);
+        if (error) { setStatus(`Could not load results: ${error.message}`, true); return; }
+        all.push(...data);
+        if (data.length < 1000) break;
+        offset += 1000;
+      }
+      results = all;
+      renderResults();
+      setStatus(`${results.length} result${results.length === 1 ? '' : 's'} loaded.`);
+    }
+
+    function renderResults() {
+      const query = document.getElementById('search').value.trim().toLowerCase();
+      const visible = results.filter(row => [row.participant_name, row.participant_email, row.access_code].some(value => value.toLowerCase().includes(query)));
+      const tbody = document.getElementById('rows');
+      tbody.replaceChildren();
+      for (const row of visible) {
+        const tr = document.createElement('tr');
+        const values = [row.participant_name, row.participant_email, row.access_code, `${row.score}/${row.total_questions}`, `${Math.floor(row.time_seconds / 60)}m ${row.time_seconds % 60}s`, new Date(row.submitted_at).toLocaleString()];
+        for (const value of values) { const td = document.createElement('td'); td.textContent = value; tr.appendChild(td); }
+        tbody.appendChild(tr);
+      }
+      if (!visible.length) { const tr = document.createElement('tr'); const td = document.createElement('td'); td.colSpan = 6; td.textContent = 'No matching results.'; tr.appendChild(td); tbody.appendChild(tr); }
+      document.getElementById('count').textContent = results.length;
+      document.getElementById('average').textContent = results.length ? `${Math.round(results.reduce((sum, row) => sum + row.score, 0) / results.length / 21 * 100)}%` : '0%';
+      document.getElementById('highest').textContent = results.length ? `${Math.max(...results.map(row => row.score))}/21` : '0/21';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!client) return;
+      setStatus('Signing in...');
+      const { data, error } = await client.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: document.getElementById('password').value });
+      if (error) { setStatus(error.message, true); return; }
+      document.getElementById('password').value = '';
+      await showSession(data.session);
+    });
+    document.getElementById('refreshBtn').addEventListener('click', loadResults);
+    document.getElementById('search').addEventListener('input', renderResults);
+    document.getElementById('signOutBtn').addEventListener('click', async () => { await client.auth.signOut(); await showSession(null); setStatus('Signed out.'); });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const lines = [['Name','Email','Code','Score','Total Questions','Time (seconds)','Submitted at'], ...results.map(row => [row.participant_name,row.participant_email,row.access_code,row.score,row.total_questions,row.time_seconds,row.submitted_at])];
+      const blob = new Blob([lines.map(line => line.map(escapeCsv).join(',')).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a'); link.href = url; link.download = 'family-of-grace-quiz-results.csv'; link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+    if (!client) setStatus('Supabase is not configured. Add your project URL and publishable key to supabase-config.js.', true);
+    else client.auth.getSession().then(({ data, error }) => error ? setStatus(error.message, true) : showSession(data.session));
+  </script>
+</body>
+</html>

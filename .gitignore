@@ -1,0 +1,4 @@
+# Scoring answer key and any future private setup files must never be published.
+private/
+.env
+.env.*
